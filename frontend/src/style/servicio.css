@@ -1,0 +1,27 @@
+/* Asegura que la tabla esté configurada para ancho fijo */
+.compact-table {
+    table-layout: fixed; /* Asegura que las columnas no crezcan automáticamente */
+}
+
+.compact-table th, 
+.compact-table td {
+    padding: 4px; /* Reduce el padding para hacer la tabla más compacta */
+}
+
+.compact-table th.permanencia-column, 
+.compact-table td.permanencia-column {
+    width: 50px; /* Ajusta el ancho de las columnas de permanencia */
+}
+
+.compact-table td.permanencia-column {
+    font-size: 8px; /* Reduce el tamaño de la fuente en las columnas de permanencia */
+}
+
+.compact-table th {
+    text-align: center; /* Alinea el texto al centro en los encabezados */
+}
+
+/* Opcional: Ajusta el tamaño de la fuente en los encabezados si es necesario */
+.compact-table th.permanencia-column {
+    font-size: 8px; /* Ajusta el tamaño de la fuente en los encabezados de permanencia */
+}

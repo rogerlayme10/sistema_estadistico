@@ -1,0 +1,14 @@
+.chart-container {  
+    position: relative;  
+    width: 100%;   /* Ocupa todo el ancho disponible */  
+    height: 400px; /* Altura específica, esto puedes ajustarlo como desees */  
+}  
+
+@media (max-width: 576px) {  
+    /* Para pantallas pequeñas */  
+    .chart-container {  
+        height: 300px; /* Ajusta la altura para pantallas pequeñas */  
+    }  
+}  
+
+/* Puedes agregar más media queries para ajustar el tamaño según tus necesidades */
