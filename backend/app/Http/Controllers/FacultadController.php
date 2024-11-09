@@ -10,7 +10,7 @@ class FacultadController extends Controller
     // Método para obtener todas las facultades
     public function getFacultades()
     {
-    $facultades = Facultad::select('cod_fac', 'facultad')
+    $facultades = Facultad::select('id_fac', 'facultad')
                           ->distinct()
                           ->orderBy('facultad', 'asc')
                           ->get();
@@ -18,9 +18,9 @@ class FacultadController extends Controller
     }
 
     // Método para obtener programas por facultad
-    public function getProgramasByFacultad($cod_fac)
+    public function getProgramasByFacultad($id_fac)
     {
-        $programas = Facultad::where('cod_fac', $cod_fac)->first()->programas;
+        $programas = Facultad::where('id_fac', $id_fac)->first()->programas;
         return response()->json($programas);
     }
 }

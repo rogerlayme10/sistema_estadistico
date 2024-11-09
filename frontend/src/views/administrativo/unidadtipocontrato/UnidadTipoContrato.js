@@ -36,7 +36,7 @@ const UnidadTipoContrato = () => {
         })));
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Grado Académico Alcanzado');
-        XLSX.writeFile(wb, 'grado_academico.xlsx');
+        XLSX.writeFile(wb, 'Administrativos_UnidadTipoContrato.xlsx');
     };
 
 
@@ -56,12 +56,15 @@ const UnidadTipoContrato = () => {
                     <Table bordered>
                         <thead>
                             <tr>
-                                <th>Unidad</th>
+                                <th rowSpan="2">Unidad</th>
+                                <th colSpan="4" className="text-center">Tipo de Contrato</th>
+                                <th rowSpan="2">Total</th>
+                            </tr>
+                            <tr>        
                                 <th>Permanente</th>
                                 <th>No Permanente</th>
                                 <th>Jornalero</th>
                                 <th>Personal de Grajas</th>
-                                <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>

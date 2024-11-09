@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import '../style/text/texto.css'
 import {
   CContainer,
   CDropdown,
@@ -52,8 +53,8 @@ const AppHeader = () => {
         </CHeaderToggler>
         <CHeaderNav className="d-none d-md-flex">
           <CNavItem>
-            <CNavLink to="/dashboard" as={NavLink} >
-              Universidad Autonoma Tomas Frias
+            <CNavLink className="text" >
+              Univeridad Autonoma Tomas Frias
             </CNavLink>
           </CNavItem>
         </CHeaderNav>

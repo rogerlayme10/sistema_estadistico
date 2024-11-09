@@ -87,7 +87,7 @@ const CargaHorariaCargo = () => {
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Carga Horaria');
         const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-        saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'carga_horaria.xlsx');
+        saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'Docentes_cargo_carga_horaria.xlsx');
     };
 
     return (
@@ -96,11 +96,12 @@ const CargaHorariaCargo = () => {
                 <Card>
                     <CardHeader>Carga horaria por cargo académico</CardHeader>
                     <Form.Select aria-label="Seleccionar Año" onChange={handleYearChange} value={selectedYear}>
-                        <option value="">Seleccionar Año</option>
+                        <option value="" disabled>Seleccionar Año</option> {/* Opción deshabilitada */}
                         {years.map(year => (
                             <option key={year} value={year}>{year}</option>
                         ))}
                     </Form.Select>
+
                     <Table bordered>
                         <thead>
                             <tr>

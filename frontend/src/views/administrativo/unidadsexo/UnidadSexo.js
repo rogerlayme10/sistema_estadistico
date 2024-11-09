@@ -53,7 +53,7 @@ const UnidadSexo = () => {
 
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Administrativos");
-        XLSX.writeFile(wb, `administrativos_${gestion}.xlsx`);
+        XLSX.writeFile(wb, `Administrativos_UnidadSexo${gestion}.xlsx`);
     };
 
    

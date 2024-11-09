@@ -1,0 +1,5 @@
+.vertical-text {  
+    writing-mode: vertical-rl; /* Cambia la dirección del texto */  
+    transform: rotate(180deg); /* Hace que el texto esté orientado correctamente */  
+    text-align: center; /* Centra el texto verticalmente */  
+}

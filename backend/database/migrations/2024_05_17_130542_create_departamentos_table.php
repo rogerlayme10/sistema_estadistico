@@ -12,10 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('departamentos', function (Blueprint $table) {
-            $table->integer("cod_dep");
+            $table->integer("id_dep") ->primary();
             $table->string("departamento");
-            $table->integer("cod_pais");
-           
+            $table->integer("id_pais");
+
+
+            $table->foreign("id_pais")->references("id_pais")->on("pais")->onDelete("cascade");
+  
         });
     }
 

@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('materno')->nullable();
             $table->string('nombres');
             $table->string('sexo');
-            $table->integer('cod_pais')->nullable();
-            $table->integer('cod_dep')->nullable();
-            $table->integer('cod_prov')->nullable();
-            $table->integer('cod_loc')->nullable();
+            $table->integer('id_pais')->nullable();
+            $table->integer('id_dep')->nullable();
+            $table->integer('id_prov')->nullable();
+            $table->integer('id_loc')->nullable();
             $table->string('id_colegio')->nullable();
             $table->string('fec_nac')->nullable();
             $table->string('celular')->nullable();

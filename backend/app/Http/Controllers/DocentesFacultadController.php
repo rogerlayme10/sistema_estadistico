@@ -26,7 +26,7 @@ class DocentesFacultadController extends Controller
                                     DB::raw("SUM(CASE WHEN sexo = 'M' THEN 1 ELSE 0 END) as total_masculino"), 
                                     DB::raw("SUM(CASE WHEN sexo = 'F' THEN 1 ELSE 0 END) as total_femenino"), 
                                     DB::raw("COUNT(*) as total"))
-                            ->join('facultads', 'docentes.cod_fac', '=', 'facultads.cod_fac')
+                            ->join('facultads', 'docentes.id_fac', '=', 'facultads.id_fac')
                             ->when($gestion, function ($query) use ($gestion) {
                                 return $query->where('docentes.gestion', $gestion);
                             })

@@ -51,16 +51,16 @@ const AlimentacionFacultad = () => {
   const barData = {
     labels: sortedData.map(row => row.facultad),  // Etiquetas de cada facultad
     datasets: [
-      /*{
+      {
         label: 'Masculino',
-        //data: sortedData.map(row => row.total_m), // Total de masculino
+        data: sortedData.map(row => row.total_m), // Total de masculino
         backgroundColor: '#36A2EB', // Color para la barra de masculino
       },
       {
         label: 'Femenino',
-        //data: sortedData.map(row => row.total_f), // Total de femenino
+        data: sortedData.map(row => row.total_f), // Total de femenino
         backgroundColor: '#FF6384', // Color para la barra de femenino
-      },*/
+      },
       {
         label: 'Total',
         data: sortedData.map(row => row.total), // Total combinado
@@ -80,14 +80,14 @@ const AlimentacionFacultad = () => {
 
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "becas");
-    XLSX.writeFile(wb, `becas_${gestion}.xlsx`);
+    XLSX.writeFile(wb, `Beca_AlimentacionFacultad${gestion}.xlsx`);
   };
 
   // Función para descargar el gráfico como imagen
   const downloadChartImage = () => {
     const chart = chartRef.current;
     const base64Image = chart.toBase64Image(); // Convertir gráfico a imagen en base64
-    saveAs(base64Image, `grafico_contratos_${gestion}.png`); // Guardar imagen como archivo PNG
+    saveAs(base64Image, `Beca_AlimentacionFacultad${gestion}.png`); // Guardar imagen como archivo PNG
   };
 
   // Opciones del gráfico de barras
@@ -108,7 +108,11 @@ const AlimentacionFacultad = () => {
     },
     scales: {
       y: {
-        beginAtZero: true // Comenzar la escala del eje Y en 0
+        beginAtZero: true, // Comenzar la escala del eje Y en 0
+        stacked: true,     // Habilitar apilamiento en el eje Y
+      },
+      x: {
+        stacked: true,     // Habilitar apilamiento en el eje X (opcional)
       }
     }
   };

@@ -89,7 +89,7 @@ const EdadSexo = () => {
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Edad y Sexo');
 
-        XLSX.writeFile(wb, `Edad_Sexo_Gestion_${gestion}.xlsx`);
+        XLSX.writeFile(wb, `Administrativos_Edad_Sexo${gestion}.xlsx`);
     };
 
     // Función para descargar el gráfico como imagen
@@ -99,7 +99,7 @@ const EdadSexo = () => {
             const imgURL = chart.toBase64Image(); // Convertir el gráfico a base64
             const link = document.createElement('a');
             link.href = imgURL;
-            link.download = `Grafico_Edad_Sexo_${gestion}.png`;
+            link.download = `Admonistrativos_Edad_Sexo${gestion}.png`;
             link.click();
         }
     };
@@ -139,7 +139,7 @@ const EdadSexo = () => {
 
     return (
         <Row>
-            <Col xs={12} md={6} xl={6}>
+            <Col xs={10} md={5} xl={5}>
                 <Card>
                     <CardHeader>
                         Personal docente por edad y sexo 
@@ -195,7 +195,7 @@ const EdadSexo = () => {
                     </Button>
                 </Card>
             </Col>
-            <Col xs={12} md={6} xl={6}>
+            <Col xs={14} md={7} xl={7}>
                 <Card>
                     <CardHeader>Gráfica de Totales</CardHeader>
                     <div style={{ padding: '20px' }}>

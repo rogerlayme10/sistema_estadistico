@@ -10,15 +10,19 @@ class Facultad extends Model
     protected $table = 'facultads';
     //protected $primaryKey = 'cod_fac';
 
-    protected $fillable = ['cod_fac', 'facultad'];
+    protected $fillable = ['id_fac', 'facultad'];
     
     public function programas()
     {
-        return $this->hasMany(Programa::class, 'cod_fac', 'cod_fac');
+        return $this->hasMany(Programa::class, 'id_fac', 'id_fac');
     }
     public function docentes()
     {
-        return $this->hasMany(Docente::class, 'cod_fac', 'cod_fac');
+        return $this->hasMany(Docente::class, 'id_fac', 'id_fac');
+    }
+    public function matriculas()
+    {
+        return $this->hasMany(Matriculas::class, 'id_fac', 'id_fac');
     }
     
     

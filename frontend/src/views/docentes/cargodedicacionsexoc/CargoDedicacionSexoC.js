@@ -69,7 +69,7 @@ const CargoDedicacionSexoC = () => {
     })));
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Docentes');
-    XLSX.writeFile(wb, `Docentes_${gestion}.xlsx`);
+    XLSX.writeFile(wb, `Docentes_DedicacionSexoCategoria${gestion}.xlsx`);
   };
 
   // Descargar el gráfico como imagen
@@ -79,7 +79,7 @@ const CargoDedicacionSexoC = () => {
       if (canvas) {
         html2canvas(canvas).then((canvas) => {
           canvas.toBlob((blob) => {
-            saveAs(blob, `Grafico_Cargos_${gestion}.png`);
+            saveAs(blob, `Docentes_DedicacionSexoCategoria${gestion}.png`);
           });
         });
       } else {

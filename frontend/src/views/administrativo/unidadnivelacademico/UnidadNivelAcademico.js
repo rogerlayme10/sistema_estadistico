@@ -40,7 +40,7 @@ const UnidadNivelAcademico = () => {
         })));
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Grado Académico Alcanzado');
-        XLSX.writeFile(wb, 'grado_academico.xlsx');
+        XLSX.writeFile(wb, 'Administrativos_UnidadNivelAcademico.xlsx');
     };
 
 
@@ -60,7 +60,11 @@ const UnidadNivelAcademico = () => {
                     <Table bordered>
                         <thead>
                             <tr>
-                                <th>Unidad</th>
+                                <th rowSpan="2">Unidad</th>
+                                <th colSpan="8" className="text-center">Nivel Academico</th>
+                                <th rowSpan="2">Total</th>
+                            </tr>
+                            <tr>
                                 <th>Diplomado</th>
                                 <th>Licenciatura</th>
                                 <th>Profesional</th>
@@ -69,7 +73,6 @@ const UnidadNivelAcademico = () => {
                                 <th>Estudiante</th>
                                 <th>EMP. Publico</th>
                                 <th>Obrero</th>
-                                <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>

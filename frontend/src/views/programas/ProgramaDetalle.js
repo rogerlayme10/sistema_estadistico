@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import config from '../../config';
+import { Card, CardHeader, Table, Row, Col, Form, Button } from 'react-bootstrap';
 
 const ProgramaDetalle = () => {
     const { id_programa } = useParams();
@@ -42,28 +43,81 @@ const ProgramaDetalle = () => {
                 );
             case 'ARM':
                 return (
-                    <div>
-                        <h2>Detalles de Artes Musicales</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Instrumento</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {/* Agrega filas de datos específicos */}
-                            </tbody>
-                        </table>
-                        {/* Agrega más contenido específico para Artes Musicales */}
-                    </div>
+                    <Row>
+        <Col xs={12} md={6} xl={6}>
+            <Card>
+                <CardHeader>Artes Musicales</CardHeader>
+                <Table bordered>
+                    <thead>
+                        <tr>
+                            <th rowSpan="2">Gestion</th>
+                            <th colSpan="2" className="text-center">Sexo</th>
+                            <th rowSpan="2">Total</th>
+                        </tr>
+                        <tr>
+                            <th>Masculino</th>
+                            <th>Femenino</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2019</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>9</td>
+                        </tr>
+                        <tr>
+                            <td>2020</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>2021</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>2022</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>2023</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>5</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total</th>
+                                <th>12</th>
+                                <th>8</th>
+                                <th>14</th>
+                            </tr>
+                        </tfoot>
+
+                   
+                </Table>
+            </Card>
+        </Col>
+        <Col xs={12} md={6} xl={6}>
+            <Card>
+                <CardHeader>Gráfico</CardHeader>
+            </Card>
+        </Col>
+    </Row>
+
                 );
             // Agrega más casos para otros programas según sea necesario
             default:
                 return (
                     <div>
                         <h1>{programa.programa}</h1>
-                        <p>Detalles del programa: {programa.detalles}</p>
+                        <p>Detalles del programa roger: {programa.detalles}</p>
                     </div>
                 );
         }

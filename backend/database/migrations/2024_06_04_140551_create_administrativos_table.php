@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string("ci");
             $table->string("paterno")->nullable();
             $table->string("materno")->nullable();
-            $table->string("nombre");
+            $table->string("nombres");
             $table->string("sexo");
             $table->date("fec_nac");
             $table->string("tipo_contrato")->nullable();

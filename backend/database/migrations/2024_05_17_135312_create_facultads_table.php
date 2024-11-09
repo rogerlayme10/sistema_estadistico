@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('facultads', function (Blueprint $table) {
-            $table->integer("cod_fac")->primary();
+            $table->integer("id_fac")->primary();
             $table->string("facultad");
             
         });

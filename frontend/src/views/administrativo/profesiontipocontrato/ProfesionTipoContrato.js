@@ -36,7 +36,7 @@ const ProfesionTipoContrato = () => {
         })));
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Grado Académico Alcanzado');
-        XLSX.writeFile(wb, 'grado_academico.xlsx');
+        XLSX.writeFile(wb, 'administrativos_profesion_Tipocontrato.xlsx');
     };
 
 
@@ -56,12 +56,15 @@ const ProfesionTipoContrato = () => {
                     <Table bordered>
                         <thead>
                             <tr>
-                                <th>Profesion</th>
+                                <th rowSpan="2">Profesion</th>
+                                <th colSpan="4" className="text-center">Tipo Contrato</th>
+                                <th rowSpan="2">Total</th>
+                            </tr>
+                            <tr>
                                 <th>Permanente</th>
                                 <th>No Permanente</th>
                                 <th>Jornalero</th>
                                 <th>Personal de Grajas</th>
-                                <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>

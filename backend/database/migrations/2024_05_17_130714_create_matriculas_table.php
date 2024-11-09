@@ -12,12 +12,28 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('matriculas', function (Blueprint $table) {
-            $table->integer("id_matricula");
-            $table->integer("id_gestion");
-            $table->integer("id_periodo");
+            $table->string("nro_dip");
             $table->integer("id_alumno");
-            $table->date("fech_registro");
-            
+            $table->string("paterno")->nullable();
+            $table->string("materno")->nullable();
+            $table->string("nombres");
+            $table->string("sexo");
+            $table->integer("id_fac");
+            $table->string("id_programa");
+            $table->integer("periodo");
+            $table->string("tipo_verificado");
+            $table->boolean('programa_mat');
+            $table->integer("id_dep");
+            $table->integer("id_prov");
+            $table->string("tipo_col");
+            $table->integer("gestion");
+
+
+            $table->foreign("id_fac")->references("id_fac")->on("facultads")->onDelete("cascade");
+            $table->foreign("id_programa")->references("id_programa")->on("programas")->onDelete("cascade");
+            $table->foreign("id_dep")->references("id_dep")->on("departamentos")->onDelete("cascade");
+            $table->foreign("id_prov")->references("id_prov")->on("provincias")->onDelete("cascade");
+            //$table->foreign("id_colegio")->references("id_colegio")->on("colegios")->onDelete("cascade");
         });
     }
 

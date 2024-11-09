@@ -12,19 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('colegios', function (Blueprint $table) {
-            $table->integer("id_colegio");
+            $table->integer("id_colegio")->primary();
             $table->string("colegio");
-            $table->integer("id_tipo");
+            $table->string("id_tipo");
             $table->string("turno");
             $table->string("area");
-            $table->integer("cod_pais");
-            $table->integer("cod_dep");
-            $table->integer("cod_prov");
-            $table->integer("cod_loc");
-            $table->integer("id_cie");
-            
+            $table->integer("id_pais");
+            $table->integer("id_dep");
+            $table->integer("id_prov");
+            $table->integer("id_loc");
 
-            $table->timestamps();
+
+
+            $table->foreign("id_pais")->references("id_pais")->on("pais")->onDelete("cascade");
+            $table->foreign("id_dep")->references("id_dep")->on("departamentos")->onDelete("cascade");
+            $table->foreign("id_prov")->references("id_prov")->on("provincias")->onDelete("cascade");
+            $table->foreign("id_loc")->references("id_loc")->on("localidads")->onDelete("cascade");
+
         });
     }
 

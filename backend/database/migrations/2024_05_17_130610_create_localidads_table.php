@@ -12,10 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('localidads', function (Blueprint $table) {
-            $table->integer("cod_loc");
+            $table->integer("id_loc")->primary();
             $table->string("localidad");
-            $table->integer("cod_dep");
-            $table->integer("cod_prov");
+            $table->integer("id_prov");
+
+
+
+
+            
+            $table->foreign("id_prov")->references("id_prov")->on("provincias")->onDelete("cascade");
+
         });
     }
 

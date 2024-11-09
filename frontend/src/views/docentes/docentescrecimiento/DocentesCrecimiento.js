@@ -22,7 +22,7 @@ const DocentesCrecimiento = () => {
                     labels: gestionLabels,
                     datasets: [
                         {
-                            label: 'Crecimiento de Docentes',
+                            label: 'Cronología del personal Docente',
                             data: docentesCounts,
                             borderColor: 'rgba(75,192,192,1)',
                             fill: false,
@@ -50,7 +50,7 @@ const DocentesCrecimiento = () => {
         <Row>
             <Col xs={18} md={9} xl={9}>
                 <Card>
-                    <CardHeader>Total docentes por gestion </CardHeader>
+                    <CardHeader>Cronología del personal docente por gestíon </CardHeader>
                     <Card.Body>
                         {chartData && chartData.labels && (
                             <>

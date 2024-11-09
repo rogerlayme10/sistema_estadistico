@@ -1,0 +1,35 @@
+
+.text {
+    
+    font-size: 1.5vw;
+    font-weight: 500;
+
+}
+.marquee {  
+    font-family: "Anton", serif;
+    display: inline-block;  
+    white-space: nowrap;  
+    overflow: hidden;  
+    box-sizing: border-box;  
+    animation: marquee 10s linear infinite;  
+    font-size: 1.5vw; /* Tamaño de fuente responsivo */  
+    background: linear-gradient(90deg, #ee4242, #2897f4, #ee4242); /* Colores del texto */  
+    -webkit-background-clip: text;  
+    -webkit-text-fill-color: transparent;   
+  } 
+   
+
+  /* Opcional: Ajustar el tamaño de la fuente en pantallas pequeñas */  
+  @media (max-width: 768px) {  
+    .marquee {  
+      font-size: 2vw; /* Aumentar tamaño de fuente para pantallas pequeñas */  
+    }  
+  }  
+
+  /* Opcional: Ajustar aún más para pantallas muy pequeñas */  
+  @media (max-width: 480px) {  
+    .marquee {  
+      font-size: 2vw; /* Aumentar tamaño de fuente para pantallas muy pequeñas */  
+    }  
+  }  
+  

@@ -22,7 +22,7 @@ const DocentesCrecimiento = () => {
                     labels: gestionLabels,
                     datasets: [
                         {
-                            label: 'Crecimiento de Docentes',
+                            label: 'Cronologia del personal Administrativo',
                             data: docentesCounts,
                             borderColor: 'rgba(75,192,192,1)',
                             fill: false,
@@ -42,7 +42,7 @@ const DocentesCrecimiento = () => {
 
         const link = document.createElement('a');
         link.href = chart.toBase64Image();
-        link.download = 'crecimiento-administrativos.png';
+        link.download = 'total_administrativos.png';
         link.click();
     };
 
@@ -50,7 +50,7 @@ const DocentesCrecimiento = () => {
         <Row>
             <Col xs={18} md={9} xl={9}>
                 <Card>
-                    <CardHeader>Total administrativos por gestion </CardHeader>
+                    <CardHeader>Cronologia del personal aministrativo, por gestion.</CardHeader>
                     <Card.Body>
                         {chartData && chartData.labels && (
                             <>

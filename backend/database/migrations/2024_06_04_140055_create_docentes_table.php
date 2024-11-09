@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('docentes', function (Blueprint $table) {
             $table->string("id_docente");
-            $table->string("a_paterno")->nullable();
+            $table->string("paterno")->nullable();
             $table->string("materno")->nullable();
             $table->string("nombres");
             $table->string("sexo");
             $table->date("fec_nac");
             $table->string("id_programa");
-            $table->integer("cod_fac");
+            $table->integer("id_fac");
             $table->string("cargo");
             $table->string("tipo_cargo");
             $table->string("categoria");
@@ -28,7 +28,10 @@ return new class extends Migration
             $table->integer("permanencia") ;
             $table->string("carga_horaria");
             $table->integer("gestion");
-           
+
+            $table->foreign("id_fac")->references("id_fac")->on("facultads")->onDelete("cascade"); 
+            $table->foreign("id_programa")->references("id_programa")->on("programas")->onDelete("cascade");
+          
         });
     }
 

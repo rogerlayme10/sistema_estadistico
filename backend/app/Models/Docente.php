@@ -23,10 +23,11 @@ class Docente extends Model
         'nivel_acad',
         'edad',
         'sexo',
+        'id_programa',
     ];
     public function facultad()
     {
-        return $this->belongsTo(Facultad::class, 'cod_fac', 'cod_fac');
+        return $this->belongsTo(Facultad::class, 'id_fac', 'id_fac');
     }
     public function programa()
     {

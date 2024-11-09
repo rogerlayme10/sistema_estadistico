@@ -37,7 +37,7 @@ const ProfesionNivelAcademico = () => {
         })));
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Grado Académico Alcanzado');
-        XLSX.writeFile(wb, 'grado_academico.xlsx');
+        XLSX.writeFile(wb, 'docente_profesion_grado_academico.xlsx');
     };
 
     return (

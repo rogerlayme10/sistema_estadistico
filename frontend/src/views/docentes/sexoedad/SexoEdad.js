@@ -89,7 +89,7 @@ const SexoEdad = () => {
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Edad y Sexo');
 
-        XLSX.writeFile(wb, `Edad_Sexo_Gestion_${gestion}.xlsx`);
+        XLSX.writeFile(wb, `Docente_Edad_Sexo_Gestion_${gestion}.xlsx`);
     };
 
     // Función para descargar el gráfico como imagen
@@ -139,7 +139,7 @@ const SexoEdad = () => {
 
     return (
         <Row>
-            <Col xs={12} md={6} xl={6}>
+            <Col xs={10} md={5} xl={5}>
                 <Card>
                     <CardHeader>
                         Personal docente por edad, segun sexo
@@ -195,7 +195,7 @@ const SexoEdad = () => {
                     </Button>
                 </Card>
             </Col>
-            <Col xs={12} md={6} xl={6}>
+            <Col xs={14} md={7} xl={7}>
                 <Card>
                     <CardHeader>Gráfica de Totales</CardHeader>
                     <div style={{ padding: '20px' }}>

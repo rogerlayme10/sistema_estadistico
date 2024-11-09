@@ -15,7 +15,7 @@ class DocentesCargaHorariaCargoController extends Controller
     
         // Consulta a la base de datos
         $datos = DB::table('docentes')
-            ->join('facultads', 'docentes.cod_fac', '=', 'facultads.cod_fac') // Relacionar facultades
+            ->join('facultads', 'docentes.id_fac', '=', 'facultads.id_fac') // Relacionar facultades
             ->select(
                 'facultads.facultad',
                 DB::raw('SUM(CASE WHEN carga_horaria = \'T.C.\' THEN 1 ELSE 0 END) as total_tc'),

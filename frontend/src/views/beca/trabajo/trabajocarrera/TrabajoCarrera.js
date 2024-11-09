@@ -59,7 +59,7 @@ const TrabajoCarrera = () => {
 
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "becas");
-        XLSX.writeFile(wb, `becas_${gestion}.xlsx`);
+        XLSX.writeFile(wb, `beca_Trabajo_Carrera${gestion}.xlsx`);
     };
 
    

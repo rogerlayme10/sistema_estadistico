@@ -36,7 +36,7 @@ const GradoAcademicoAlcanzado = () => {
         })));
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Grado Académico Alcanzado');
-        XLSX.writeFile(wb, 'grado_academico.xlsx');
+        XLSX.writeFile(wb, 'docente_grado_academico.xlsx');
     };
     //descargra img
     const handleExportChartAsImage = () => {
@@ -46,7 +46,7 @@ const GradoAcademicoAlcanzado = () => {
                 const img = canvas.toDataURL('image/png');
                 const link = document.createElement('a');
                 link.href = img;
-                link.download = 'chart.png';
+                link.download = 'docente_grado_academico.png';
                 link.click();
             });
         }

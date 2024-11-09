@@ -6,18 +6,20 @@ import config from '../../../config';
 const DocentesCarreraSexo = () => {
     const [docentes, setDocentes] = useState([]);
     const [gestiones, setGestiones] = useState([]);
-    const [gestion, setGestion] = useState('');
+    const [gestion, setGestion] = useState('2023');
 
     // Envolver fetchDocentes en useCallback para evitar ciclos de dependencia
     const fetchDocentes = useCallback(async () => {
         try {
-            const response = await fetch(`${config.API_URL}/carreras-sexo?gestion=${gestion}`);
+            // Solo añade el filtro de gestión si hay un valor seleccionado
+            const url = gestion ? `${config.API_URL}/carreras-sexo?gestion=${gestion}` : `${config.API_URL}/carreras-sexo`;
+            const response = await fetch(url);
             const data = await response.json();
             setDocentes(data);
         } catch (error) {
             console.error('Error al obtener los datos:', error);
         }
-    }, [gestion]); // 'gestion' es la única dependencia
+    }, [gestion]);
 
     const fetchGestiones = async () => {
         try {
@@ -59,16 +61,14 @@ const DocentesCarreraSexo = () => {
 
                     <Form className="mb-3">
                         <Form.Group controlId="gestionSelect">
-                            <Form.Label>Seleccionar Gestión</Form.Label>
-                            <Form.Control 
-                                as="select" 
+                            <Form.Select 
                                 value={gestion} 
                                 onChange={e => setGestion(e.target.value)}>
-                                <option value="">Todas</option>
+                                <option value="" disabled>Seleccionar Año</option> {/* Opción deshabilitada */}
                                 {gestiones.map((year, index) => (
                                     <option key={index} value={year}>{year}</option>
                                 ))}
-                            </Form.Control>
+                            </Form.Select>
                         </Form.Group>
                     </Form>
 

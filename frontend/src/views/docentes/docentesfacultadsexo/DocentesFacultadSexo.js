@@ -20,13 +20,15 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const DocentesFacultadSexo = () => {
     const [docentes, setDocentes] = useState([]);
     const [gestiones, setGestiones] = useState([]); // Estado para almacenar las gestiones
-    const [gestion, setGestion] = useState(''); // Estado para la gestión seleccionada
+    const [gestion, setGestion] = useState('2023'); // Estado para la gestión seleccionada, por defecto 2023
     const chartRef = useRef(null); // Referencia a la gráfica
 
     // Función para obtener las facultades por sexo desde la API
     const fetchDocentes = useCallback(async () => {
         try {
-            const response = await fetch(`${config.API_URL}/facultades-sexo?gestion=${gestion}`);
+            // Solo añade el filtro de gestión si hay un valor seleccionado
+            const url = gestion ? `${config.API_URL}/facultades-sexo?gestion=${gestion}` : `${config.API_URL}/facultades-sexo`;
+            const response = await fetch(url);
             const data = await response.json();
             setDocentes(data);
         } catch (error) {
@@ -118,18 +120,15 @@ const DocentesFacultadSexo = () => {
 
                     <Form className="mb-3">
                         <Form.Group controlId="gestionSelect">
-                            <Form.Label>Seleccionar Gestión</Form.Label>
-                            <Form.Control 
-                                as="select" 
+                            <Form.Select 
                                 value={gestion} 
                                 onChange={e => setGestion(e.target.value)}>
-                                <option value="">Todas</option>
+                                <option value="" disabled>Seleccionar Año</option> {/* Opción deshabilitada */}
                                 {gestiones.map((year, index) => (
                                     <option key={index} value={year}>{year}</option>
                                 ))}
-                            </Form.Control>
+                            </Form.Select>
                         </Form.Group>
-                        
                     </Form>
 
                     <Table bordered>

@@ -61,14 +61,14 @@ const TipoContrato = () => {
 
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Administrativos");
-        XLSX.writeFile(wb, `administrativos_${gestion}.xlsx`);
+        XLSX.writeFile(wb, `administrativos_tipo_contrato${gestion}.xlsx`);
     };
 
     // Función para descargar el gráfico como imagen
     const downloadChartImage = () => {
         const chart = chartRef.current;
         const base64Image = chart.toBase64Image(); // Convertir gráfico a imagen en base64
-        saveAs(base64Image, `grafico_contratos_${gestion}.png`); // Guardar imagen como archivo PNG
+        saveAs(base64Image, `administrativos_tipo_contrato_${gestion}.png`); // Guardar imagen como archivo PNG
     };
 
     const chartOptions = {

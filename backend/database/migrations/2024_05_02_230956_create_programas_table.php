@@ -15,11 +15,11 @@ return new class extends Migration
         
             $table->string("id_programa")->primary();
             $table->string("programa");
-            $table->integer("cod_fac");
+            $table->integer("id_fac");
             $table->string("tipo_academico");
             
 
-            //$table->foreign("cod_fac")->references("cod_fac")->on("facultads")->onDelete("cascade"); 
+            $table->foreign("id_fac")->references("id_fac")->on("facultads")->onDelete("cascade"); 
 
         });
     }
