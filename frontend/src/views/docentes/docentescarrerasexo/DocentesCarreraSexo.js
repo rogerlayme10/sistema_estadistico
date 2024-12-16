@@ -56,7 +56,7 @@ const DocentesCarreraSexo = () => {
             <Col >
                 <Card>
                     <CardHeader>
-                        Personal docente por sexo, según facultad
+                    Personal Docente por Sexo, según Carrera.
                     </CardHeader>
 
                     <Form className="mb-3">

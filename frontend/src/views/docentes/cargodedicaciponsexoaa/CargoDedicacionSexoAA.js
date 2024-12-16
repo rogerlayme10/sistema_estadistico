@@ -1,13 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardHeader, Table, FormSelect, Row, Col, Button, CardBody } from 'react-bootstrap';
-import { Bar } from 'react-chartjs-2';
+import { Card, CardHeader, Table, FormSelect, Row, Col, Button } from 'react-bootstrap';
 import * as XLSX from 'xlsx';
+import { Bar } from 'react-chartjs-2';
 import { saveAs } from 'file-saver';
-import html2canvas from 'html2canvas';
-//import ChartOptions from '../../../style/textgrafic/ChartOptions';
+import { CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, Chart as ChartJS } from 'chart.js';
 import config from '../../../config';
-import '../../../style/textgrafic/grafic.css';
-import { specificChartOptions } from '../../../style/textgrafic/ChartOptions';
+
+// Registrar los componentes de Chart.js necesarios
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const CargoDedicacionSexoAA = () => {
   const [data, setData] = useState([]);
@@ -29,36 +36,6 @@ const CargoDedicacionSexoAA = () => {
     setGestion(event.target.value);
   };
 
-  // Preparar datos para el gráfico de barras apiladas
-  const chartData = {
-    labels: data.map(item => item.cargo),
-    datasets: [
-      {
-        label: 'M',
-        data: data.map(item => item.total_masculino),
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1
-      },
-      {
-        label: 'F',
-        data: data.map(item => item.total_femenino),
-        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1
-      },
-      {
-        label: 'Total',
-        data: data.map(item => item.total_masculino + item.total_femenino),
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1
-      }
-    ]
-  };
-
-
-
   // Descargar la tabla en Excel
   const exportTableToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(data.map(item => ({
@@ -69,32 +46,80 @@ const CargoDedicacionSexoAA = () => {
     })));
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Docentes');
-    XLSX.writeFile(wb, `Docentes_Dedicacion<sexoAcademicas${gestion}.xlsx`);
+    XLSX.writeFile(wb, `Docentes_DedicacionSexoAcademicas${gestion}.xlsx`);
   };
 
   // Descargar el gráfico como imagen
-  const downloadChartAsImage = () => {
-    if (chartRef.current) {
-      const canvas = chartRef.current.getElementsByTagName('canvas')[0];
-      if (canvas) {
-        html2canvas(canvas).then((canvas) => {
-          canvas.toBlob((blob) => {
-            saveAs(blob, `Docentes_Dedicacion<sexoAcademicas${gestion}.png`);
-          });
-        });
-      } else {
-        console.error('No se pudo encontrar el canvas del gráfico.');
-      }
+  const exportChartAsImage = () => {
+    const chartInstance = chartRef.current;
+    if (chartInstance) {
+      const base64Image = chartInstance.toBase64Image(); // Obtiene la imagen en Base64
+      saveAs(base64Image, `Grafico_DedicacionSexoAcademicas${gestion}.png`);
     } else {
       console.error('El gráfico no está disponible.');
     }
   };
 
+  // Datos para el gráfico
+  const chartData = {
+    labels: data.map(item => item.cargo),
+    datasets: [
+      {
+        label: 'Masculino',
+        data: data.map(item => item.total_masculino),
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+      },
+      {
+        label: 'Femenino',
+        data: data.map(item => item.total_femenino),
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+      {
+        label: 'Total',
+        data: data.map(item => item.total),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // Opciones del gráfico
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Cargo',
+      },
+        stacked: false,
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Cantidad',
+      },
+        beginAtZero: true,
+      },
+    },
+  };
+
   return (
     <Row>
       <Col xs={12} md={6} xl={5}>
-        <Card >
-          <CardHeader>Personal docente de autoridades académicas, segun cargo y sexo</CardHeader>
+        <Card>
+          <CardHeader>Personal Docente de Autoridades Académicas por Sexo, según Cargo.</CardHeader>
 
           <FormSelect value={gestion} onChange={handleFilterChange}>
             {years.map(year => (
@@ -140,16 +165,20 @@ const CargoDedicacionSexoAA = () => {
       </Col>
 
       <Col xs={12} md={6} xl={7}>
-        <Card >
-          <CardHeader>Gráfico</CardHeader>
-          <CardBody>
-            <div className="chart-container" ref={chartRef}>
-              <Bar data={chartData} options={specificChartOptions} />
-            </div>
-
-
-          </CardBody>
-          <Button onClick={downloadChartAsImage} variant="primary" className="mt-2">
+        <Card>
+          <CardHeader>Gráfico de Barras: Distribución por Cargo</CardHeader>
+          <div style={{ height: '400px' }}>
+            <Bar
+              ref={chart => {
+                if (chart) {
+                  chartRef.current = chart;
+                }
+              }}
+              data={chartData}
+              options={chartOptions}
+            />
+          </div>
+          <Button onClick={exportChartAsImage} variant="primary" className="mt-2">
             Descargar Gráfico como Imagen
           </Button>
         </Card>

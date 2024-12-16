@@ -70,7 +70,7 @@ const ReadmisionCarrera = () => {
             <Col >
                 <Card>
                     <CardHeader>
-                        Readmision, carrera segun sexo
+                        Readmision por sexo, según Carrera.
                         <Form.Select 
                             className="mt-2" 
                             value={gestion} 

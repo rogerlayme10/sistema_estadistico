@@ -1,0 +1,70 @@
+.principal-container {
+  position: relative; /* Necesario para usar pseudo-elementos */
+  background-image: url('../assets/images/uatf1.jpg'); /* Ruta de tu imagen de fondo */
+  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+  background-position: center center; /* Centra la imagen */
+  background-attachment: fixed; /* Fija la imagen al fondo para que no se mueva con el scroll */
+  color: #fff; /* Texto blanco */
+  min-height: 100vh; /* Asegura que el fondo cubra toda la altura de la pantalla */
+  z-index: 0; /* Asegura que el contenido esté encima del fondo */
+}
+
+.principal-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Color negro con opacidad del 50% */
+  z-index: -1; /* Ubica la superposición debajo del contenido */
+}
+
+.principal-greeting {
+  font-size: 2.5rem;
+}
+
+.principal-title {
+  font-size: 2.5rem;
+  line-height: 1.2;
+}
+
+.principal-highlight {
+  color: #1a64ed; /* Azul turquesa para el texto destacado */
+}
+
+.principal-subtitle {
+  font-size: 1.2rem;
+}
+
+.principal-buttons .btn {
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.principal-image {
+  width: 100%; /* Asegura que la imagen ocupe todo el espacio de su contenedor */
+  height: auto; /* Mantiene las proporciones de la imagen */
+}
+
+/* Media Queries */
+@media (max-width: 767px) {
+  .principal-title {
+    font-size: 2rem; /* Reduce el tamaño de la fuente en pantallas pequeñas */
+  }
+
+  .principal-subtitle {
+    font-size: 1rem; /* Reduce el tamaño de la fuente */
+  }
+
+  .principal-buttons .btn {
+    width: 100%; /* Hace que los botones ocupen todo el ancho en pantallas pequeñas */
+  }
+}
+
+@media (max-width: 576px) {
+  .principal-greeting {
+    font-size: 1.2rem; /* Ajuste adicional para pantallas muy pequeñas */
+  }
+}

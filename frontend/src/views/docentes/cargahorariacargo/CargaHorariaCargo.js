@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardHeader, Table, Row, Col, Form, Button } from 'react-bootstrap';
+import { Card, CardHeader, Table, Row, Col, Form, Button, CardText } from 'react-bootstrap';
 import config from '../../../config';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -94,7 +94,7 @@ const CargaHorariaCargo = () => {
         <Row>
             <Col>
                 <Card>
-                    <CardHeader>Carga horaria por cargo académico</CardHeader>
+                    <CardHeader>Personal Docente por Categoria y Carga Horaria,según Facultad.</CardHeader>
                     <Form.Select aria-label="Seleccionar Año" onChange={handleYearChange} value={selectedYear}>
                         <option value="" disabled>Seleccionar Año</option> {/* Opción deshabilitada */}
                         {years.map(year => (
@@ -130,6 +130,7 @@ const CargaHorariaCargo = () => {
                             {renderTotals()}
                         </tfoot>
                     </Table>
+                    <CardText style={{paddingLeft: '10px'}}>Donde: TC=tiempo Completo y TH:Tiempo Horario</CardText>
                     <Button onClick={exportToExcel}>Descargar en Excel</Button>
                 </Card>
             </Col>

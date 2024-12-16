@@ -63,7 +63,7 @@ const UnidadSexo = () => {
             <Col >
                 <Card>
                     <CardHeader>
-                        Personal administrativo por sexo,según unidad
+                        Personal Administrativo por Sexo, según Unidad.
                         <Form.Select 
                             className="mt-2" 
                             value={gestion} 

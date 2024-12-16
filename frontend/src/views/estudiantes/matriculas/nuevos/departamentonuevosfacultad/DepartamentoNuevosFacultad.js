@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, /*useRef*/ } from "react";
 import { Card, CardHeader, Table, Row, Col, Form, Button } from 'react-bootstrap';
-import { Bar } from 'react-chartjs-2'; // Importa el gráfico de barras
+//import { Bar } from 'react-chartjs-2'; // Importa el gráfico de barras
 import * as XLSX from 'xlsx';
 import config from '../../../../../config'; // Archivo donde tienes tu URL base
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
@@ -11,7 +11,7 @@ const DepartamentoFacultad = () => {
     const [data, setData] = useState([]);
     const [years, setYears] = useState([]);
     const [selectedYear, setSelectedYear] = useState("");
-    const chartRef = useRef(null);
+    //const chartRef = useRef(null);
 
     const fetchData = async (year) => {
         const response = await fetch(`${config.API_URL}/facultad-nuevos-departamento/${year}`);
@@ -43,7 +43,7 @@ const DepartamentoFacultad = () => {
         XLSX.writeFile(workbook, `DepartamentoFacultad_${selectedYear}.xlsx`);
     };
 
-    const barData = {
+    /*const barData = {
         labels: ['La Paz', 'Santa Cruz', 'Cochabamba', 'Potosí', 'Oruro', 'Chuquisaca', 'Tarija', 'Beni', 'Pando', 'Otros'],
         datasets: [
             {
@@ -70,14 +70,14 @@ const DepartamentoFacultad = () => {
         link.href = chartRef.current.toBase64Image();
         link.download = `chart_${selectedYear}.png`;
         link.click();
-    };
+    };*/
 
     return (
         <Row>
             <Col xs={12}>
                 <Card>
                     <CardHeader>
-                        Población universitaria estduiantes nuevos por Facultad, según Departamento de Nacimiento.
+                        Población Estudiantil Nuevos por Lugar de Nacimiento y Departamento , Según Facultad.
                         <Form.Select
                             value={selectedYear}
                             onChange={(e) => setSelectedYear(e.target.value)}
@@ -148,16 +148,16 @@ const DepartamentoFacultad = () => {
                     <Button onClick={exportToExcel}>Descargar Excel</Button>
                 </Card>
             </Col>
-            <Col xs={12} className="mt-4">
+            {/*<Col xs={12} className="mt-4">
             <Card>
-                <CardHeader>Grafifo de distribucion</CardHeader>
+                <CardHeader>Grafica de Barras: Distribucion por Facultad.</CardHeader>
                 <div style={{padding: '20px', width: '500%', height: '450px' }}>
                 <Bar data={barData} ref={chartRef} /> {/* Usar gráfico de barras por defecto */}
-                </div>
+                {/*</div>
                 <Button onClick={downloadChartImage}>Descargar Imagen del Gráfico</Button>
             </Card>
             
-            </Col>
+            </Col>*/}
         </Row>
     );
 };

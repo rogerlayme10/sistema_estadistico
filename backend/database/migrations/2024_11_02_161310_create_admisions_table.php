@@ -36,6 +36,7 @@ return new class extends Migration
             //$table->foreign("id_prov")->references("id_prov")->on("provincias")->onDelete("cascade");
             //$table->foreign("id_colegio")->references("id_colegio")->on("colegios")->onDelete("cascade");
             $table->foreign("id_examen")->references("id_examen")->on("examens")->onDelete("cascade");
+            $table->foreign("nro_dip")->references("nro_dip")->on("uatf_datos")->onDelete("cascade");
 
         });
     }

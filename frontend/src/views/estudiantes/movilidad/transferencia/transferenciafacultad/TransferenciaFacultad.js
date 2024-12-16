@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Card, CardHeader, Table, Row, Col, Form, Button } from 'react-bootstrap';
-import { Pie } from 'react-chartjs-2'; // Cambiamos Bar por Pie
+import { Bar } from 'react-chartjs-2'; // Cambiamos Pie por Bar
 import { saveAs } from 'file-saver'; // Importar file-saver
 import * as XLSX from 'xlsx'; // Importar xlsx para exportar a Excel
 import config from '../../../../../config';
@@ -48,20 +48,20 @@ const TransferenciaFacultad = () => {
   // Ordenar los datos por 'facultad' alfabéticamente
   const sortedData = [...data].sort((a, b) => a.facultad.localeCompare(b.facultad));
 
-  // Preparar los datos para el gráfico de pie
-  const pieData = {
+  // Preparar los datos para el gráfico de barras
+  const barData = {
     labels: sortedData.map(row => row.facultad),  // Etiquetas de cada facultad
     datasets: [
       {
-        label: 'Total',
-        data: sortedData.map(row => row.total), // Total combinado
-        backgroundColor: sortedData.map((row, index) => {
-          // Generar colores dinámicos o estáticos
-          const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
-          return colors[index % colors.length];
-        }),
-        hoverOffset: 4
-      }
+        label: 'Masculino',
+        data: sortedData.map(row => row.total_m), // Datos de Masculino
+        backgroundColor: '#36A2EB', // Color para Masculino
+      },
+      {
+        label: 'Femenino',
+        data: sortedData.map(row => row.total_f), // Datos de Femenino
+        backgroundColor: '#FF6384', // Color para Femenino
+      },
     ]
   };
 
@@ -86,7 +86,7 @@ const TransferenciaFacultad = () => {
     saveAs(base64Image, `Transferencia_Facultad${gestion}.png`); // Guardar imagen como archivo PNG
   };
 
-  // Opciones del gráfico de pie
+  // Opciones del gráfico de barras
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -97,9 +97,32 @@ const TransferenciaFacultad = () => {
       tooltip: {
         callbacks: {
           label: function (tooltipItem) {
-            return `${tooltipItem.label}: ${tooltipItem.raw}`; // Mostrar el valor en el tooltip
+            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`; // Mostrar el valor en el tooltip
           }
         }
+      }
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Facultades'
+        },
+        ticks: {
+          maxRotation: 45, // Máxima rotación permitida
+          minRotation: 50, // Rotación mínima
+          autoSkip: true,  // Saltar etiquetas si no caben
+          font: {
+            size: 10 // Tamaño de la fuente
+          }
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Cantidad',
+        },
+        beginAtZero: true // Inicia el eje Y en 0
       }
     }
   };
@@ -109,7 +132,7 @@ const TransferenciaFacultad = () => {
       <Col xs={12} md={5} xl={5}>
         <Card>
           <CardHeader>
-            Transferencia, facultad segun sexo
+            Transferencia por Sexo, según Facultad.
             <Form.Select
               className="mt-2"
               value={gestion}
@@ -160,9 +183,9 @@ const TransferenciaFacultad = () => {
       </Col>
       <Col xs={14} md={7} xl={7}>
         <Card>
-          <CardHeader>Gráfica</CardHeader>
+          <CardHeader>Gráfica de Barras: Distribución por Facultad.</CardHeader>
           <div style={{ height: '400px' }}>
-            <Pie ref={chartRef} data={pieData} options={chartOptions} /> {/* Cambiamos Bar por Pie */}
+            <Bar ref={chartRef} data={barData} options={chartOptions} /> {/* Cambiamos Pie por Bar */}
           </div>
           <Button variant="primary" onClick={downloadChartImage} className="mt-2">
             Descargar Gráfico en Imagen
@@ -174,5 +197,3 @@ const TransferenciaFacultad = () => {
 };
 
 export default TransferenciaFacultad;
-
-

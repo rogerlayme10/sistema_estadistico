@@ -1,19 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardHeader, Table, FormSelect, Row, Col, Button, CardBody } from 'react-bootstrap';
-import { Bar } from 'react-chartjs-2';
+import { Card, CardHeader, Table, FormSelect, Row, Col, Button } from 'react-bootstrap';
 import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
-import html2canvas from 'html2canvas';
-//import ChartOptions from '../../../style/textgrafic/ChartOptions';
+import { Bar } from 'react-chartjs-2'; // Cambiar Doughnut a Bar
+import { Chart as ChartJS, BarElement, Tooltip, Legend, CategoryScale, LinearScale } from 'chart.js';
 import config from '../../../config';
-import '../../../style/textgrafic/grafic.css';
-import { specificChartOptions } from '../../../style/textgrafic/ChartOptions';
+
+// Registrar los elementos necesarios para un gráfico de barras
+ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
 
 const CargoDedicacionSexo = () => {
   const [data, setData] = useState([]);
   const [years, setYears] = useState([]);
   const [gestion, setGestion] = useState(2023); // Valor predeterminado para la gestión
-  const chartRef = useRef(null);
+  const chartRef = useRef(null); // Referencia para el gráfico
 
   useEffect(() => {
     fetch(`${config.API_URL}/docentes?gestion=${gestion}`)
@@ -29,38 +28,6 @@ const CargoDedicacionSexo = () => {
     setGestion(event.target.value);
   };
 
-  // Preparar datos para el gráfico de barras apiladas
-  const chartData = {
-    labels: data.map(item => item.cargo),
-    datasets: [
-      {
-        label: 'M',
-        data: data.map(item => item.total_masculino),
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1
-      },
-      {
-        label: 'F',
-        data: data.map(item => item.total_femenino),
-        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1
-      },
-      {
-        label: 'Total',
-        data: data.map(item => item.total_masculino + item.total_femenino),
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1
-      }
-    ]
-  };
-
-
-
-
-
   // Descargar la tabla en Excel
   const exportTableToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(data.map(item => ({
@@ -74,29 +41,79 @@ const CargoDedicacionSexo = () => {
     XLSX.writeFile(wb, `Docentes_DedicacionSexo${gestion}.xlsx`);
   };
 
-  // Descargar el gráfico como imagen
+  // Configuración del gráfico
+  const chartData = {
+    labels: data.map(item => item.cargo),
+    datasets: [
+      /*{
+        label: 'Total Masculino',
+        data: data.map(item => item.total_masculino),
+        backgroundColor: '#36A2EB',
+      },
+      {
+        label: 'Total Femenino',
+        data: data.map(item => item.total_femenino),
+        backgroundColor: '#FF6384',
+      },*/
+      {
+        label: 'Total',
+        data: data.map(item => item.total),
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)', // Borde de las barras
+        borderWidth: 1
+      },
+    ],
+  };
+
   const downloadChartAsImage = () => {
-    if (chartRef.current) {
-      const canvas = chartRef.current.getElementsByTagName('canvas')[0];
-      if (canvas) {
-        html2canvas(canvas).then((canvas) => {
-          canvas.toBlob((blob) => {
-            saveAs(blob, `Docentes_dedicacionSexo${gestion}.png`);
-          });
-        });
-      } else {
-        console.error('No se pudo encontrar el canvas del gráfico.');
-      }
-    } else {
-      console.error('El gráfico no está disponible.');
+    const chart = chartRef.current;
+    if (chart) {
+      const url = chart.toBase64Image();
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `Grafico_CargoDedicacionSexo_${gestion}.png`;
+      link.click();
     }
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        ticks: {
+          maxRotation: 45, // Máxima rotación permitida
+          minRotation: 50, // Rotación mínima
+          autoSkip: true,  // Saltar etiquetas si no caben
+          font: {
+              size: 10 // Tamaño de la fuente
+          }
+      },
+        title: {
+          display: true,
+          text: 'Cargos',
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Cantidad',
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+      },
+    },
   };
 
   return (
     <Row>
-      <Col xs={12} md={6} xl={5}>
-        <Card >
-          <CardHeader>Personal docente de autoridades, segun cargo y sexo</CardHeader>
+      <Col xs={12} md={6} xl={6}>
+        <Card>
+          <CardHeader>Personal Docente de Autoridades por Sexo, según Cargo.</CardHeader>
 
           <FormSelect value={gestion} onChange={handleFilterChange}>
             {years.map(year => (
@@ -140,17 +157,14 @@ const CargoDedicacionSexo = () => {
           </Button>
         </Card>
       </Col>
-
-      <Col xs={12} md={6} xl={7}>
-        <Card >
-          <CardHeader>Gráfico</CardHeader>
-          <CardBody>
-            <div className="chart-container" ref={chartRef}>
-              <Bar data={chartData} options={specificChartOptions} />
-            </div>
-          </CardBody>
+      <Col xs={12} md={6} xl={6}>
+        <Card>
+          <CardHeader>Gráfico de Barras: Distribución por Cargo</CardHeader>
+          <div style={{ height: '400px' }}>
+            <Bar ref={chartRef} data={chartData} options={chartOptions} />
+          </div>
           <Button onClick={downloadChartAsImage} variant="primary" className="mt-2">
-            Descargar Gráfico como Imagen
+            Descargar Gráfica como Imagen
           </Button>
         </Card>
       </Col>
@@ -159,5 +173,3 @@ const CargoDedicacionSexo = () => {
 };
 
 export default CargoDedicacionSexo;
-
-

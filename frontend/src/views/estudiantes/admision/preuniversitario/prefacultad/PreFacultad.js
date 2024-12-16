@@ -2,20 +2,21 @@ import React, { useEffect, useState, useRef } from "react";
 import { Card, CardHeader, Table, Row, Col, Form, Button } from "react-bootstrap";
 import config from "../../../../../config";
 import * as XLSX from "xlsx";
-import { PolarArea } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2"; // Cambié Doughnut por Bar
 import { saveAs } from "file-saver";
 import {
   Chart as ChartJS,
-  RadialLinearScale,
-  ArcElement,
+  BarElement,  // Para gráficos de barras
+  CategoryScale, // Escala para las categorías
+  LinearScale,   // Escala para valores numéricos
   Tooltip,
   Legend
 } from "chart.js";
 
 // Registrar los componentes necesarios para Chart.js
-ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const PsaFacultad = () => {
+const PreFacultad = () => {
   const [facultades, setFacultades] = useState([]);
   const [gestiones, setGestiones] = useState([]);
   const [gestionSeleccionada, setGestionSeleccionada] = useState("2023");
@@ -45,63 +46,86 @@ const PsaFacultad = () => {
 
   // Función para exportar la tabla a Excel, incluyendo el total
   const exportToExcel = () => {
-    // Agregar los datos de facultades
     const data = facultades.map(facultad => ({
       Facultad: facultad.facultad,
       Inscritos: facultad.inscritos,
       Aceptados: facultad.aceptados
     }));
 
-    // Calcular el total de inscritos y aceptados
     const totalInscritos = facultades.reduce((total, item) => total + item.inscritos, 0);
     const totalAceptados = facultades.reduce((total, item) => total + item.aceptados, 0);
 
-    // Agregar la fila del total al final de los datos
     data.push({
       Facultad: "Total",
       Inscritos: totalInscritos,
       Aceptados: totalAceptados
     });
 
-    // Convertir los datos en una hoja de Excel
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Facultades");
-    XLSX.writeFile(workbook, "pre_facultades.xlsx");
+    XLSX.writeFile(workbook, "psa_facultades.xlsx");
   };
 
-  // Datos para el gráfico Polar Area
+  // Datos para el gráfico de barras
   const chartData = {
-    labels: ["Inscritos", "Aceptados"],
+    labels: facultades.map(facultad => facultad.facultad), // Etiquetas con nombres de facultades
     datasets: [
       {
-        data: [
-          facultades.reduce((total, item) => total + item.inscritos, 0),
-          facultades.reduce((total, item) => total + item.aceptados, 0)
-        ],
-        backgroundColor: [
-          "rgba(54, 162, 235, 0.6)", // Color para Inscritos
-          "rgba(255, 99, 132, 0.6)"  // Color para Aceptados
-        ]
+        label: "Inscritos",
+        data: facultades.map(facultad => facultad.inscritos),
+        backgroundColor: "rgba(54, 162, 235, 0.6)" // Color para inscritos
+      },
+      {
+        label: "Aceptados",
+        data: facultades.map(facultad => facultad.aceptados),
+        backgroundColor: "rgba(255, 99, 132, 0.6)" // Color para aceptados
       }
     ]
   };
+  const barChartOptions = {
+    responsive: true,
+    plugins: {
+        legend: {
+            display: true, // Ocultar la leyenda
+        },
+        title: {
+            display: true,
+            text: `Totales por Facultad`,
+        },
+    },
+    scales: {
+        x: {
+            title: {
+                display: true,
+                text: 'Edad', // Título del eje X
+            },
+        },
+        y: {
+            title: {
+                display: true,
+                text: 'Cantidad',
+            },
+            beginAtZero: true,
+        },
+    },
+  } ;
 
   // Función para descargar el gráfico como imagen
   const downloadChartImage = () => {
     const chart = chartRef.current;
     if (chart) {
       const url = chart.toBase64Image();
-      saveAs(url, "grafico_polar_area.png");
+      saveAs(url, "grafico_barras.png");
     }
   };
 
   return (
     <Row>
-      <Col xs={12} md={6} xl={6}>
+      <Col xs={12} md={5} xl={5}>
         <Card>
           <CardHeader>
-            Postulantes y admitidos al Examen de Cursos Pre Universitario por Facultad
+             Cursos PRE Universitarios  por Postulantes, según Facultad.
             <Form.Select value={gestionSeleccionada} onChange={handleGestionChange} disabled={gestiones.length === 0}>
               <option value="" disabled>Selecione Una gestion</option>
               {gestiones.map((gestion) => (
@@ -142,13 +166,12 @@ const PsaFacultad = () => {
           <Button onClick={exportToExcel}>Descargar Excel</Button>
         </Card>
       </Col>
-      <Col xs={12} md={6} xl={6}>
+      <Col xs={12} md={7} xl={7}>
         <Card>
-          <CardHeader>Gráfico Polar Area</CardHeader>
-          <div style={{ height: '400px', width: '400px', margin: 'auto' }}>
-          <PolarArea data={chartData} ref={chartRef} />
+          <CardHeader>Gráfico de Barras: Distribución por Facultad</CardHeader>
+          <div >
+            <Bar data={chartData} ref={chartRef} options={barChartOptions} />
           </div>
-          
           <Button onClick={downloadChartImage}>Descargar Imagen</Button>
         </Card>
       </Col>
@@ -156,4 +179,4 @@ const PsaFacultad = () => {
   );
 };
 
-export default PsaFacultad;
+export default PreFacultad;

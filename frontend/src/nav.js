@@ -9,7 +9,6 @@ const nav = [
     name: 'Principal',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    
   },
   {
     component: CNavTitle,
@@ -80,7 +79,6 @@ const nav = [
        },*/
     ],
   },
-
   {
     component: CNavGroup,
     name: 'Docentes',
@@ -114,6 +112,11 @@ const nav = [
       },
       {
         component: CNavItem,
+        name: 'Facultad Segun sexo',
+        to: '/docentes/docentesfacultadsexo',
+      },
+      {
+        component: CNavItem,
         name: 'Carrera Segun sexo',
         to: '/docentes/docentescarrerasexo',
       },
@@ -127,14 +130,10 @@ const nav = [
         name: 'Edad segun Sexo',
         to: '/docentes/sexoedad',
       },
+      
       {
         component: CNavItem,
-        name: 'Facultad Segun sexo',
-        to: '/docentes/docentesfacultadsexo',
-      },
-      {
-        component: CNavItem,
-        name: 'Grado Academico Alcanzado',
+        name: 'Categoria Nivel Academico',
         to: '/docentes/gradoacademicoalcanzado',
       },
       {
@@ -146,7 +145,6 @@ const nav = [
 
 
     ],
-
   },
   {
     component: CNavGroup,
@@ -156,128 +154,31 @@ const nav = [
     items: [
       {
         component: CNavGroup,
-        name: 'Becas',
-        to: './beca',
-        icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
-        items: [
-          {
-            component: CNavGroup,
-            name: 'Alimentacion',
-            to: '/beca',
-            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
-            items: [
-              {
-                component: CNavItem,
-                name: 'Facultad Sexo',
-                to: '/beca/alimentacion/alimentacionfacultad',
-
-              },
-              {
-                component: CNavItem,
-                name: 'Carrera Sexo',
-                to: '/beca/alimentacion/alimentacioncarrera',
-
-              }
-
-            ]
-          },
-          {
-            component: CNavGroup,
-            name: 'Aux Docencia',
-            to: '/beca',
-            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
-            items: [
-              {
-                component: CNavItem,
-                name: 'Facultad Sexo',
-                to: '/beca/docencia/docenciafacultad',
-
-              },
-              {
-                component: CNavItem,
-                name: 'Carrera Sexo',
-                to: '/beca/docencia/docenciacarrera',
-
-              }
-            ],
-          },
-          {
-            component: CNavGroup,
-            name: 'Graduacion',
-            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
-            to: '/beca',
-            
-            items: [
-              {
-                component: CNavItem,
-                name: 'Facultad Sexo',
-                to: '/beca/graduacion/graduacionfacultad',
-
-              },
-              {
-                component: CNavItem,
-                name: 'Carrera Sexo',
-                to: '/beca/graduacion/graduacioncarrera',
-
-              }
-            ],
-          },
-          {
-            component: CNavGroup,
-            name: 'Aux Investigacion',
-            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
-            to: '/beca',
-            items: [
-              {
-                component: CNavItem,
-                name: 'Facultad Sexo',
-                to: '/beca/investigacion/investigacionfacultad',
-
-              },
-              {
-                component: CNavItem,
-                name: 'Carrera Sexo',
-                to: '/beca/investigacion/investigacioncarrera',
-
-              }
-            ],
-
-          },
-          {
-            component: CNavGroup,
-            name: 'Trabajo',
-            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
-            to: '/b',
-            items: [
-              {
-                component: CNavItem,
-                name: 'Facultad Sexo',
-                to: '/beca/trabajo/trabajofacultad',
-
-              },
-              {
-                component: CNavItem,
-                name: 'Carrera Sexo',
-                to: '/beca/trabajo/trabajocarrera',
-
-              }
-            ],
-          },
-
-        ]
-      },
-      {
-        component: CNavGroup,
         name: 'Admision Estudiantil',
         to: './estudiantes',
         icon: <CIcon icon={cilChevronRight} customClassName="nav-icon" />,
         items: [
+          {
+            component: CNavItem,
+            name: 'Resumen',
+            to: './estudiantes/admision/admisionprincipal',
+          }, 
           {
             component:CNavGroup,
             name: 'PSA',
             to:'./estudinates',
             icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
             items:[
+              {
+                component: CNavItem,
+                name: 'Tasa Postulantes',
+                to: './estudiantes/admision/psa/psacrecimientopostulantes',
+              },
+              {
+                component: CNavItem,
+                name: 'Tasa Aceptados',
+                to: './estudiantes/admision/psa/psacrecimientoaceptados',
+              },
               {
                 component: CNavItem,
                 name: 'Facultad',
@@ -290,6 +191,26 @@ const nav = [
               },
               {
                 component: CNavItem,
+                name: 'Lugar Facultad',
+                to: './estudiantes/admision/psa/psalugarfacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Lugar carrera',
+                to: './estudiantes/admision/psa/psalugarcarrera',
+              },
+              {
+                component: CNavItem,
+                name: 'Procedencia Facultad',
+                to: './estudiantes/admision/psa/psaprocedencia',
+              }, 
+              {
+                component: CNavItem,
+                name: 'Procedencia Carrera',
+                to: './estudiantes/admision/psa/psaprocedenciacarrera',
+              },
+              {
+                component: CNavItem,
                 name: 'Departamento Facultad',
                 to: './estudiantes/admision/psa/psadepartamentofacultad',
               }, 
@@ -298,6 +219,7 @@ const nav = [
                 name: 'Departamento Carrera',
                 to: './estudiantes/admision/psa/psadepartamentocarrera',
               },
+             
               {
                 component: CNavItem,
                 name: 'Tipo Colegio',
@@ -313,16 +235,7 @@ const nav = [
                 name: 'Edad Sexo',
                 to: './estudiantes/admision/psa/psaedadsexo',
               },
-              {
-                component: CNavItem,
-                name: 'Tasa Postulantes',
-                to: './estudiantes/admision/psa/psacrecimientopostulantes',
-              },
-              {
-                component: CNavItem,
-                name: 'Tasa Aceptados',
-                to: './estudiantes/admision/psa/psacrecimientoaceptados',
-              },
+              
             ]
           },
           {
@@ -331,6 +244,16 @@ const nav = [
             to:'./estudiantes',
             icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
             items:[
+              {
+                component: CNavItem,
+                name: 'Tasa Postulantes',
+                to: './estudiantes/admision/preuniversitario/precrecimientopostulantes',
+              },
+              {
+                component: CNavItem,
+                name: 'Tasa Aceptados',
+                to: './estudiantes/admision/preuniversitario/precrecimientoaceptados',
+              },
               {
                 component: CNavItem,
                 name: 'Facultad',
@@ -343,6 +266,26 @@ const nav = [
               },
               {
                 component: CNavItem,
+                name: 'Lugar Facultad',
+                to: './estudiantes/admision/preuniversitario/prelugarfacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Lugar Carrera',
+                to: './estudiantes/admision/preuniversitario/prelugarcarrera',
+              },
+              {
+                component: CNavItem,
+                name: 'Procedencia Facultad',
+                to: './estudiantes/admision/preuniversitario/preprocedencia',
+              },
+              {
+                component: CNavItem,
+                name: 'Procedencia Carrera',
+                to: './estudiantes/admision/preuniversitario/preprocedenciacarrera',
+              },
+              {
+                component: CNavItem,
                 name: 'Departamento Facultad',
                 to: './estudiantes/admision/preuniversitario/predepartamentofacultad',
               }, 
@@ -351,6 +294,7 @@ const nav = [
                 name: 'Departamento Carrera',
                 to: './estudiantes/admision/preuniversitario/predepartamentocarrera',
               },
+              
               {
                 component: CNavItem,
                 name: 'Tipo Colegio',
@@ -366,16 +310,7 @@ const nav = [
                 name: 'Edad Sexo',
                 to: './estudiantes/admision/preuniversitario/preedadsexo',
               },
-              {
-                component: CNavItem,
-                name: 'Tasa Postulantes',
-                to: './estudiantes/admision/preuniversitario/precrecimientopostulantes',
-              },
-              {
-                component: CNavItem,
-                name: 'Tasa Aceptados',
-                to: './estudiantes/admision/preuniversitario/precrecimientoaceptados',
-              },
+              
             ]
           },
           {
@@ -386,6 +321,16 @@ const nav = [
             items:[
               {
                 component: CNavItem,
+                name: 'Tasa Postulantes',
+                to: './estudiantes/admision/especial/especialcrecimientopostulantes',
+              },
+              {
+                component: CNavItem,
+                name: 'Tasa Aceptados',
+                to: './estudiantes/admision/especial/especialcrecimientoaceptados',
+              },
+              {
+                component: CNavItem,
                 name: 'Facultad',
                 to: './estudiantes/admision/especial/especialfacultad',
               }, 
@@ -394,6 +339,26 @@ const nav = [
                 name: 'Carrera',
                 to: './estudiantes/admision/especial/especialcarrera',
               },
+              {
+                component: CNavItem,
+                name: 'Lugar Facultad',
+                to: './estudiantes/admision/especial/especiallugarfacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Lugar Carrera',
+                to: './estudiantes/admision/especial/especiallugarcarrera',
+              },
+              {
+                component: CNavItem,
+                name: 'Procedencia Facultad',
+                to: './estudiantes/admision/especial/especialprocedencia',
+              }, 
+              {
+                component: CNavItem,
+                name: 'Procedencia Carrera',
+                to: './estudiantes/admision/especial/especialprocedenciacarrera',
+              }, 
               {
                 component: CNavItem,
                 name: 'Departamento Facultad',
@@ -419,16 +384,330 @@ const nav = [
                 name: 'Edad Sexo',
                 to: './estudiantes/admision/especial/especialedadsexo',
               },
+              
+            ]
+          },
+        ]
+      },
+      {
+        component: CNavGroup,
+        name: 'Becas',
+        to: './beca',
+        icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
+        items: [
+          {
+            component: CNavItem,
+            name: 'Resumen',
+            to: '/beca/becaprincipal',
+
+          },
+          {
+            component: CNavGroup,
+            name: 'Alimentacion',
+            to: '/beca',
+            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
+            items: [
               {
                 component: CNavItem,
-                name: 'Tasa Postulantes',
-                to: './estudiantes/admision/especial/especialcrecimientopostulantes',
+                name: 'Resumen',
+                to: '/beca/alimentacion/alimentacionresumen',
+
               },
               {
                 component: CNavItem,
-                name: 'Tasa Aceptados',
-                to: './estudiantes/admision/especial/especialcrecimientoaceptados',
-              }, 
+                name: 'Facultad Sexo',
+                to: '/beca/alimentacion/alimentacionfacultad',
+
+              },
+              {
+                component: CNavItem,
+                name: 'Carrera Sexo',
+                to: '/beca/alimentacion/alimentacioncarrera',
+
+              }
+
+            ]
+          },
+          {
+            component: CNavGroup,
+            name: 'Aux Docencia',
+            to: '/beca',
+            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
+            items: [
+              {
+                component: CNavItem,
+                name: 'Resumen',
+                to: '/beca/docencia/docenciaresumen',
+
+              },
+              {
+                component: CNavItem,
+                name: 'Facultad Sexo',
+                to: '/beca/docencia/docenciafacultad',
+
+              },
+              {
+                component: CNavItem,
+                name: 'Carrera Sexo',
+                to: '/beca/docencia/docenciacarrera',
+
+              }
+            ],
+          },
+          {
+            component: CNavGroup,
+            name: 'Graduacion',
+            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
+            to: '/beca',
+            
+            items: [
+              {
+                component: CNavItem,
+                name: 'Resumen',
+                to: '/beca/graduacion/graduacionresumen',
+
+              },
+              {
+                component: CNavItem,
+                name: 'Facultad Sexo',
+                to: '/beca/graduacion/graduacionfacultad',
+
+              },
+              {
+                component: CNavItem,
+                name: 'Carrera Sexo',
+                to: '/beca/graduacion/graduacioncarrera',
+
+              }
+            ],
+          },
+          {
+            component: CNavGroup,
+            name: 'Aux Investigacion',
+            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
+            to: '/beca',
+            items: [
+              {
+                component: CNavItem,
+                name: 'Resumen',
+                to: '/beca/investigacion/investigacionresumen',
+
+              },
+              {
+                component: CNavItem,
+                name: 'Facultad Sexo',
+                to: '/beca/investigacion/investigacionfacultad',
+
+              },
+              {
+                component: CNavItem,
+                name: 'Carrera Sexo',
+                to: '/beca/investigacion/investigacioncarrera',
+
+              }
+            ],
+
+          },
+          {
+            component: CNavGroup,
+            name: 'Trabajo',
+            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
+            to: '/b',
+            items: [
+              {
+                component: CNavItem,
+                name: 'Resumen',
+                to: '/beca/trabajo/trabajoresumen',
+
+              },
+              {
+                component: CNavItem,
+                name: 'Facultad Sexo',
+                to: '/beca/trabajo/trabajofacultad',
+
+              },
+              {
+                component: CNavItem,
+                name: 'Carrera Sexo',
+                to: '/beca/trabajo/trabajocarrera',
+
+              }
+            ],
+          },
+
+        ]
+      },
+      {
+        component: CNavGroup,
+        name: 'Movilidad',
+        to: './movilidad',
+        icon: <CIcon icon={cilGarage} customClassName="nav-icon" />,
+        items: [
+          {
+            component: CNavItem,
+            name: 'Resumen',
+            to: './estudiantes/movilidad/movilidadprincipal',
+          },
+          {
+            component: CNavGroup,
+            name: 'Actas',
+            to: './movilidad',
+            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
+            items: [
+              {
+                component: CNavItem,
+                name: 'Resumen',
+                to: './estudiantes/movilidad/actas/actasresumen',
+              },
+              {
+                component: CNavItem,
+                name: 'Facultad',
+                to: './estudiantes/movilidad/actas/actasfacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Carrera',
+                to: './estudiantes/movilidad/actas/actascarrera',
+              }
+            ]
+          },
+          
+          {
+            component: CNavGroup,
+            name: 'Cambio Carrera',
+            to: './movilidad',
+            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
+            items: [
+              {
+                component: CNavItem,
+                name: 'Resumen',
+                to: './estudiantes/movilidad/cambio/cambioresumen',
+              },
+              {
+                component: CNavItem,
+                name: 'Facultad',
+                to: './estudiantes/movilidad/cambio/cambiofacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Carrera',
+                to: './estudiantes/movilidad/cambio/cambiocarrera',
+              }
+            ]
+          },
+          {
+            component: CNavGroup,
+            name: 'Notas',
+            to: './movilidad',
+            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
+            items: [
+              {
+                component: CNavItem,
+                name: 'Resumen',
+                to: './estudiantes/movilidad/notas/notasresumen',
+              },
+              {
+                component: CNavItem,
+                name: 'Facultad',
+                to: './estudiantes/movilidad/notas/notasfacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Carrera',
+                to: './estudiantes/movilidad/notas/notascarrera',
+              }
+            ]
+          },
+          {
+            component: CNavGroup,
+            name: 'Readmision',
+            to: './movilidad',
+            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
+            items: [
+              {
+                component: CNavItem,
+                name: 'Resumen',
+                to: './estudiantes/movilidad/readmision/readmisionresumen',
+              },
+              {
+                component: CNavItem,
+                name: 'Facultad',
+                to: './estudiantes/movilidad/readmision/readmisionfacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Carrera',
+                to: '/estudiantes/movilidad/readmision/readmisioncarrera',
+              }
+            ]
+          },
+          {
+            component: CNavGroup,
+            name: 'Suspension',
+            to: './movilidad',
+            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
+            items: [
+              {
+                component: CNavItem,
+                name: 'Resumen',
+                to: './estudiantes/movilidad/suspension/suspensionresumen',
+              },
+              {
+                component: CNavItem,
+                name: 'Facultad',
+                to: './estudiantes/movilidad/suspension/suspensionfacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Carrera',
+                to: './estudiantes/movilidad/suspension/suspensioncarrera',
+              }
+            ]
+          },
+          {
+            component: CNavGroup,
+            name: 'Transferencia',
+            to: './movilidad',
+            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
+            items: [
+              {
+                component: CNavItem,
+                name: 'Resumen',
+                to: './estudiantes/movilidad/transferencia/transferenciaresumen',
+              },
+              {
+                component: CNavItem,
+                name: 'Facultad',
+                to: './estudiantes/movilidad/transferencia/transferenciafacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Carrera',
+                to: './estudiantes/movilidad/transferencia/transferenciacarrera',
+              }
+            ]
+          },
+          {
+            component: CNavGroup,
+            name: 'Traspasos',
+            to: './movilidad',
+            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
+            items: [
+              {
+                component: CNavItem,
+                name: 'Resumen',
+                to: './estudiantes/movilidad/traspasos/traspasosresumen',
+              },
+              {
+                component: CNavItem,
+                name: 'Facultad',
+                to: './estudiantes/movilidad/traspasos/traspasosfacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Carrera',
+                to: './estudiantes/movilidad/traspasos/traspasoscarrera',
+              }
             ]
           },
         ]
@@ -440,16 +719,21 @@ const nav = [
         icon: <CIcon icon={cilHouse} customClassName="nav-icon" />,
         items: [
           {
+            component: CNavItem,
+            name: 'Resumen',
+            to: './estudiantes/matriculas/matriculasprincipal',
+          },
+          {
             component:CNavGroup,
             name: 'Poblacion Estudiantil',
             to:'./poblacion',
             icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
             items:[
-              {
+              /*{
                 component: CNavItem,
                 name: 'Programados Facultad',
                 to: './estudiantes/matriculas/poblacion/matriculadosprogramadosfacultad',
-              },
+              },*/
               {
                 component: CNavItem,
                 name: 'Programados Carrera',
@@ -467,6 +751,26 @@ const nav = [
               },
               {
                 component: CNavItem,
+                name: 'Lugar Facultad',
+                to: './estudiantes/matriculas/poblacion/poblacionlugarfacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Lugar Carrera',
+                to: './estudiantes/matriculas/poblacion/poblacionlugarcarrera',
+              },
+              {
+                component: CNavItem,
+                name: 'Procedencia Facultad',
+                to: './estudiantes/matriculas/poblacion/poblacionprocedenciaeducativa',
+              },
+              {
+                component: CNavItem,
+                name: 'Procedencia Carrera',
+                to: './estudiantes/matriculas/poblacion/poblacionprocedenciacarrera',
+              },
+              {
+                component: CNavItem,
                 name: 'Departamento Facultad',
                 to: './estudiantes/matriculas/poblacion/departamentofacultad',
               },
@@ -475,6 +779,7 @@ const nav = [
                 name: 'Departamento Carrera',
                 to: './estudiantes/matriculas/poblacion/departamentocarrera',
               },
+              
               {
                 component: CNavItem,
                 name: 'Tipo de Colegio',
@@ -502,6 +807,11 @@ const nav = [
             items:[
               {
                 component: CNavItem,
+                name: 'Tasa Crecimiento',
+                to: './estudiantes/matriculas/regular/crecimientoregularcarrera',
+              },
+              {
+                component: CNavItem,
                 name: 'Matriculados Facultad',
                 to: './estudiantes/matriculas/regular/matriculadosregularfacultad',
               },
@@ -512,9 +822,26 @@ const nav = [
               },
               {
                 component: CNavItem,
-                name: 'Tasa Crecimiento',
-                to: './estudiantes/matriculas/regular/crecimientoregularcarrera',
+                name: 'Lugar Facultad',
+                to: './estudiantes/matriculas/regular/regularlugarfacultad',
               },
+              {
+                component: CNavItem,
+                name: 'Lugar Carrera',
+                to: './estudiantes/matriculas/regular/regularlugarcarrera',
+              },
+              {
+                component: CNavItem,
+                name: 'Procedencia Facultad',
+                to: './estudiantes/matriculas/regular/regularprocedenciaeducativa',
+              },
+              {
+                component: CNavItem,
+                name: 'Procedencia Carrera',
+                to: './estudiantes/matriculas/regular/regularprocedenciacarrera',
+              },
+              
+              
               {
                 component: CNavItem,
                 name: 'Departamento Facultad',
@@ -525,6 +852,7 @@ const nav = [
                 name: 'Departamento Carrera',
                 to: './estudiantes/matriculas/regular/departamentoregularcarrera',
               },
+              
               {
                 component: CNavItem,
                 name: 'Tipo Colegio',
@@ -542,6 +870,11 @@ const nav = [
             items:[
               {
                 component: CNavItem,
+                name: 'Tasa Crecimiento',
+                to: './estudiantes/matriculas/nuevos/crecimientonuevoscarrera',
+              },
+              {
+                component: CNavItem,
                 name: 'Matriculados Facultad',
                 to: './estudiantes/matriculas/nuevos/matriculadosnuevosfacultad',
               },
@@ -552,8 +885,23 @@ const nav = [
               },
               {
                 component: CNavItem,
-                name: 'Tasa Crecimiento',
-                to: './estudiantes/matriculas/nuevos/crecimientonuevoscarrera',
+                name: 'Lugar Facultad',
+                to: './estudiantes/matriculas/nuevos/nuevoslugarfacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Lugar Carrera',
+                to: './estudiantes/matriculas/nuevos/nuevoslugarcarrera',
+              },
+              {
+                component: CNavItem,
+                name: 'Procedencia Facultad',
+                to: './estudiantes/matriculas/nuevos/procedencianuevosfacultad',
+              },
+              {
+                component: CNavItem,
+                name: 'Procedencia Carrera',
+                to: './estudiantes/matriculas/nuevos/procedencianuevoscarrera',
               },
               {
                 component: CNavItem,
@@ -565,6 +913,7 @@ const nav = [
                 name: 'Departamento Carrera',
                 to: './estudiantes/matriculas/nuevos/departamentonuevoscarrera',
               },
+              
               {
                 component: CNavItem,
                 name: 'Tipo Colegio',
@@ -574,142 +923,6 @@ const nav = [
           },
           
         ]
-      },
-      {
-        component: CNavGroup,
-        name: 'Movilidad',
-        to: './movilidad',
-        icon: <CIcon icon={cilGarage} customClassName="nav-icon" />,
-        items: [
-          {
-            component: CNavGroup,
-            name: 'Actas',
-            to: './movilidad',
-            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
-            items: [
-              {
-                component: CNavItem,
-                name: 'Facultad',
-                to: './estudiantes/movilidad/actas/actasfacultad',
-              },
-              {
-                component: CNavItem,
-                name: 'Carrera',
-                to: './estudiantes/movilidad/actas/actascarrera',
-              }
-            ]
-          },
-          
-          {
-            component: CNavGroup,
-            name: 'Cambio Carrera',
-            to: './movilidad',
-            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
-            items: [
-              {
-                component: CNavItem,
-                name: 'Facultad',
-                to: './estudiantes/movilidad/cambio/cambiofacultad',
-              },
-              {
-                component: CNavItem,
-                name: 'Carrera',
-                to: './estudiantes/movilidad/cambio/cambiocarrera',
-              }
-            ]
-          },
-          {
-            component: CNavGroup,
-            name: 'Notas',
-            to: './movilidad',
-            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
-            items: [
-              {
-                component: CNavItem,
-                name: 'Facultad',
-                to: './estudiantes/movilidad/notas/notasfacultad',
-              },
-              {
-                component: CNavItem,
-                name: 'Carrera',
-                to: './estudiantes/movilidad/notas/notascarrera',
-              }
-            ]
-          },
-          {
-            component: CNavGroup,
-            name: 'Readmision',
-            to: './movilidad',
-            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
-            items: [
-              {
-                component: CNavItem,
-                name: 'Facultad',
-                to: './estudiantes/movilidad/readmision/readmisionfacultad',
-              },
-              {
-                component: CNavItem,
-                name: 'Carrera',
-                to: '/estudiantes/movilidad/readmision/readmisioncarrera',
-              }
-            ]
-          },
-          {
-            component: CNavGroup,
-            name: 'Suspension',
-            to: './movilidad',
-            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
-            items: [
-              {
-                component: CNavItem,
-                name: 'Facultad',
-                to: './estudiantes/movilidad/suspension/suspensionfacultad',
-              },
-              {
-                component: CNavItem,
-                name: 'Carrera',
-                to: './estudiantes/movilidad/suspension/suspensioncarrera',
-              }
-            ]
-          },
-          {
-            component: CNavGroup,
-            name: 'Transferencia',
-            to: './movilidad',
-            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
-            items: [
-              {
-                component: CNavItem,
-                name: 'Facultad',
-                to: './estudiantes/movilidad/transferencia/transferenciafacultad',
-              },
-              {
-                component: CNavItem,
-                name: 'Carrera',
-                to: './estudiantes/movilidad/transferencia/transferenciacarrera',
-              }
-            ]
-          },
-          {
-            component: CNavGroup,
-            name: 'Traspasos',
-            to: './movilidad',
-            icon: <CIcon icon={cilOptions} customClassName="nav-icon" />,
-            items: [
-              {
-                component: CNavItem,
-                name: 'Facultad',
-                to: './estudiantes/movilidad/traspasos/traspasosfacultad',
-              },
-              {
-                component: CNavItem,
-                name: 'Carrera',
-                to: './estudiantes/movilidad/traspasos/traspasoscarrera',
-              }
-            ]
-          },
-        ]
-
       },
     ],
 
@@ -722,8 +935,28 @@ const nav = [
     items: [
       {
         component: CNavItem,
-        name: 'A',
-        to: './graduados',
+        name: 'Facultad',
+        to: './graduados/facultadgraduados',
+      },
+      {
+        component: CNavItem,
+        name: 'Carrera',
+        to: './graduados/carreragraduados',
+      },
+      {
+        component: CNavItem,
+        name: 'Modalidad',
+        to: './graduados/modalidadgraduados',
+      },
+      {
+        component: CNavItem,
+        name: 'Permanencia',
+        to: './graduados/permanenciagraduados',
+      },
+      {
+        component: CNavItem,
+        name: 'Nota',
+        to: './graduados/notagraduados',
       },
     ],
 

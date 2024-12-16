@@ -36,6 +36,7 @@ class EstudiantesTipoColegioRegularController extends Controller
             // Excluir programas con id_programa "EXI", "EDI", "EXQ"
             ->whereNotIn('matriculas.id_programa', ['EDI', 'EDT', 'EXI', 'EXQ'])
             ->where('matriculas.tipo_verificado', '=', 'ANTIGUO')
+            ->where('matriculas.periodo', '=', '1')
             ->groupBy('tipo_col')
             ->get();
 

@@ -14,7 +14,7 @@ import {
 // Registrar los componentes necesarios para Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const PreCarrera = () => {
+const EspecialCarrera = () => {
   const [programas, setProgramas] = useState([]);
   const [gestiones, setGestiones] = useState([]);
   const [gestionSeleccionada, setGestionSeleccionada] = useState("2023");
@@ -64,7 +64,34 @@ const PreCarrera = () => {
     XLSX.writeFile(workbook, "psa_programas.xlsx");
   };
 
-  // Datos para el gráfico Doughnut
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const total = context.dataset.data.reduce((sum, value) => sum + value, 0);
+            const value = context.raw;
+            const percentage = ((value / total) * 100).toFixed(2);
+            return `${context.label}: ${percentage}%`;
+          }
+        }
+      },
+      datalabels: {
+        formatter: (value, context) => {
+          const total = context.dataset.data.reduce((sum, val) => sum + val, 0);
+          const percentage = ((value / total) * 100).toFixed(2);
+          return `${percentage}%`;
+        },
+        color: '#fff',
+        font: {
+          weight: 'bold'
+        }
+      }
+    }
+  };
+  
   const chartData = {
     labels: ["Inscritos", "Aceptados"],
     datasets: [
@@ -95,7 +122,7 @@ const PreCarrera = () => {
       <Col xs={12} md={6} xl={6}>
         <Card>
           <CardHeader>
-            Postulantes y admitidos por Admision Especial segun carrera
+            Admision Especial por Postulantes, según  Carrera.
             <Form.Select value={gestionSeleccionada} onChange={handleGestionChange} disabled={gestiones.length === 0}>
               <option value="" disabled>Selecione Una gestion</option>
               {gestiones.map((gestion) => (
@@ -138,9 +165,9 @@ const PreCarrera = () => {
       </Col>
       <Col xs={12} md={6} xl={6}>
         <Card>
-          <CardHeader>Gráfico Doughnut</CardHeader>
-          <div style={{ height: '400px', width: '400px', margin: 'auto' }}>
-            <Doughnut data={chartData} ref={chartRef} /> {/* Cambiado a Doughnut */}
+          <CardHeader>Gráfico de Anillo: Distribución por Carrera</CardHeader>
+          <div style={{ height: '400px' }}>
+            <Doughnut data={chartData} ref={chartRef} options={chartOptions} /> {/* Cambiado a Doughnut */}
           </div>
           <Button onClick={downloadChartImage}>Descargar Imagen</Button>
         </Card>
@@ -149,4 +176,4 @@ const PreCarrera = () => {
   );
 };
 
-export default PreCarrera;
+export default EspecialCarrera;

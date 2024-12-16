@@ -11,7 +11,7 @@ const MatriculadosSexoFacultad = () => {
     const [data, setData] = useState([]);
     const [gestiones, setGestiones] = useState([]);
     const [selectedGestion, setSelectedGestion] = useState("2023");
-    const chartRef = useRef(null);  // Crear una referencia para el gráfico
+    const chartRef = useRef(null);  
 
     const fetchData = async (gestion) => {
         try {
@@ -41,7 +41,7 @@ const MatriculadosSexoFacultad = () => {
         fetchData("2023");
     }, []);
 
-    // Descargar tabla como Excel
+  
     const exportToExcel = () => {
         const worksheet = XLSX.utils.json_to_sheet(data);
         const workbook = XLSX.utils.book_new();
@@ -50,7 +50,7 @@ const MatriculadosSexoFacultad = () => {
         XLSX.writeFile(workbook, `Matriculados_Sexo_facultad_Nuevos_${selectedGestion}.xlsx`);
     };
 
-    // Descargar gráfico como imagen
+    
     const downloadChartImage = () => {
         const chart = chartRef.current;
         if (chart) {
@@ -66,7 +66,7 @@ const MatriculadosSexoFacultad = () => {
     const chartData = {
         labels: data.map(item => item.facultad),
         datasets: [
-            {
+            /*{
                 label: 'Masculino',
                 data: data.map(item => item.total_masculino),
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
@@ -75,7 +75,7 @@ const MatriculadosSexoFacultad = () => {
                 label: 'Femenino',
                 data: data.map(item => item.total_femenino),
                 backgroundColor: 'rgba(255, 99, 132, 0.6)',
-            },
+            },*/
             {
                 label:'Total',
                 data: data.map(item => item.total),
@@ -98,6 +98,31 @@ const MatriculadosSexoFacultad = () => {
                 text: `Distribución por Sexo - Gestión ${selectedGestion}`,
             },
         },
+        scales: {
+            x: {
+              stacked: true, // Habilitar apilamiento en el eje X encima de otro 
+              title: {
+                display: true,
+                text: 'Facultades'
+              },
+              ticks: {
+                maxRotation: 45, // Máxima rotación permitida
+                minRotation: 50, // Rotación mínima
+                autoSkip: true,  // Saltar etiquetas si no caben
+                font: {
+                  size: 10 // Tamaño de la fuente
+                }
+              }
+            },
+            y: {
+              stacked: true, // Habilitar apilamiento en el eje Y
+              title: {
+                display: true,
+                text: 'Cantidad',
+              },
+              beginAtZero: true // Inicia el eje Y en 0
+            }
+          }
     };
 
     return (
@@ -105,7 +130,7 @@ const MatriculadosSexoFacultad = () => {
             <Col xs={12} md={6} xl={6}>
                 <Card>
                     <CardHeader>
-                        Población estudiantil matriculados nuevos por facultad, segun sexo.
+                        Población Estudiantil de Matriculados Nuevos por Sexo, Según Facultad.
                         <Form.Select
                             value={selectedGestion || ''}
                             onChange={(e) => setSelectedGestion(e.target.value)}
@@ -155,7 +180,7 @@ const MatriculadosSexoFacultad = () => {
             </Col>
             <Col xs={12} md={6} xl={6}>
                 <Card>
-                    <CardHeader>Gráfico</CardHeader>
+                    <CardHeader>Gráfica de Barras: Districucion por Facultad.</CardHeader>
                     <Bar data={chartData} options={chartOptions} ref={chartRef} />  {/* Asignar la referencia al gráfico */}
                     <Button className="mt-3" onClick={downloadChartImage}>Descargar Gráfico</Button>
                 </Card>

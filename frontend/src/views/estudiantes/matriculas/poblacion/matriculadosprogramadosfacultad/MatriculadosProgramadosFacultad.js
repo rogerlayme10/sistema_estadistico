@@ -105,7 +105,7 @@ const MatriculadosprogramadosFacultad = () => {
             <Col xs={12} md={6} xl={6}>
                 <Card>
                     <CardHeader>
-                        Población estudiantil programados por facultad, segun sexo.
+                        Población Estudiantil Programada Según Facultad.
                         <Form.Select
                             value={selectedGestion || ''}
                             onChange={(e) => setSelectedGestion(e.target.value)}

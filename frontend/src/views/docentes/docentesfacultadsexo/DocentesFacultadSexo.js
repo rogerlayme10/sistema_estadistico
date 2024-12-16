@@ -77,6 +77,10 @@ const DocentesFacultadSexo = () => {
             legend: {
                 display: false // Ocultar la leyenda porque solo tienes un dataset
             },
+            title: {
+                display: true,
+                text: `Totales por Facultad`, // Título principal del gráfico
+            },
             tooltip: {
                 callbacks: {
                     label: (context) => `Total: ${context.raw}` // Muestra solo el total en el tooltip
@@ -84,11 +88,30 @@ const DocentesFacultadSexo = () => {
             }
         },
         scales: {
+            x: {
+                ticks: {
+                    maxRotation: 45, // Máxima rotación permitida
+                    minRotation: 50, // Rotación mínima
+                    autoSkip: true,  // Saltar etiquetas si no caben
+                    font: {
+                        size: 10 // Tamaño de la fuente
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Facultades'
+                }
+            },
             y: {
+                title: {
+                    display: true,
+                    text: 'Cantidad',
+                },
                 beginAtZero: true // Inicia el eje Y en 0
             }
         }
     };
+    
 
     // Función para exportar la tabla a Excel
     const exportToExcel = () => {
@@ -115,7 +138,7 @@ const DocentesFacultadSexo = () => {
             <Col xs={12} md={6} xl={5}>
                 <Card>
                     <CardHeader>
-                        Personal docente por sexo, según facultad
+                        Personal Docente por Sexo, Según Facultad.
                     </CardHeader>
 
                     <Form className="mb-3">
@@ -168,9 +191,9 @@ const DocentesFacultadSexo = () => {
             </Col>
             <Col xs={12} md={6} xl={7}>
                 <Card>
-                    <CardHeader>Gráfica</CardHeader>
+                    <CardHeader>Gráfica de Barras: Distribución por Facultad</CardHeader>
                     <div className="mt-4">
-                        <h5>Gráfica de Totales por Facultad</h5>
+                       
                         <Bar ref={chartRef} data={chartData} options={chartOptions} />
                     </div>
                     <Button onClick={exportChartToImage} className="mt-3">Descargar Gráfica en Imagen</Button>
@@ -181,3 +204,4 @@ const DocentesFacultadSexo = () => {
 };
 
 export default DocentesFacultadSexo;
+

@@ -116,13 +116,13 @@ const CrecimientoNuevosCarrera = () => {
         <Row>
             <Col xs={12} md={6} xl={6}>
                 <Card>
-                    <CardHeader>Tasa de crecimiento según carrera de estudiantes regulares</CardHeader>
+                    <CardHeader>Tasa de Crecimiento de Estudiantes Regulares por gestion, Según Carrera.</CardHeader>
                     <Table bordered>
                         <thead>
                             <tr>
                                 <th rowSpan="2">Carrera</th>
                                 <th colSpan={gestiones.length} className="text-center">Gestión</th>
-                                <th rowSpan="2">Total</th>
+                                
                             </tr>
                             <tr>
                                 {gestiones.map((gestion) => (
@@ -137,7 +137,7 @@ const CrecimientoNuevosCarrera = () => {
                                     {gestiones.map((gestion) => (
                                         <td key={gestion}>{row[`total_${gestion}`]}</td>
                                     ))}
-                                    <td>{row.total}</td>
+                                    
                                 </tr>
                             ))}
                         </tbody>
@@ -149,7 +149,7 @@ const CrecimientoNuevosCarrera = () => {
                                         {data.reduce((sum, row) => sum + (row[`total_${gestion}`] || 0), 0)}
                                     </th>
                                 ))}
-                                <th>{data.reduce((sum, row) => sum + row.total, 0)}</th>
+                                
                             </tr>
                         </tfoot>
                     </Table>
@@ -159,7 +159,7 @@ const CrecimientoNuevosCarrera = () => {
             </Col>
             <Col xs={12} md={6} xl={6}>
                 <Card>
-                    <CardHeader>Gráfico</CardHeader>
+                    <CardHeader>Gráfico de Lineas: Distribucion por Carrera</CardHeader>
                     {/* Gráfico de líneas */}
                     <Line ref={chartRef} data={lineChartData} options={lineChartOptions} />
                     {/* Botón para descargar el gráfico como imagen */}

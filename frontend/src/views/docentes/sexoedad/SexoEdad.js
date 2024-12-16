@@ -106,7 +106,7 @@ const SexoEdad = () => {
 
     // Preparar los datos para el gráfico de barras
     const barChartData = {
-        labels: datos.map(item => `Edad ${item.edad}`), // Etiquetas de las edades
+        labels: datos.map(item => ` ${item.edad}`), // Etiquetas de las edades
         datasets: [
             {
                 label: 'Total',
@@ -131,7 +131,17 @@ const SexoEdad = () => {
             },
         },
         scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Edad', // Título del eje X
+                },
+            },
             y: {
+                title: {
+                    display: true,
+                    text: 'Cantidad',
+                },
                 beginAtZero: true,
             },
         },
@@ -142,7 +152,7 @@ const SexoEdad = () => {
             <Col xs={10} md={5} xl={5}>
                 <Card>
                     <CardHeader>
-                        Personal docente por edad, segun sexo
+                        Personal Docente por Sexo, según Edad.
                         {/* Dropdown para seleccionar la gestión */}
                         <Form.Control as="select" value={gestion} onChange={(e) => setGestion(e.target.value)}>
                             {gestiones.map((g, index) => (
@@ -197,7 +207,7 @@ const SexoEdad = () => {
             </Col>
             <Col xs={14} md={7} xl={7}>
                 <Card>
-                    <CardHeader>Gráfica de Totales</CardHeader>
+                    <CardHeader>Gráfica de Barras: Distribución por Edad</CardHeader>
                     <div style={{ padding: '20px' }}>
                         <Bar ref={chartRef} data={barChartData} options={barChartOptions} />
                     </div>

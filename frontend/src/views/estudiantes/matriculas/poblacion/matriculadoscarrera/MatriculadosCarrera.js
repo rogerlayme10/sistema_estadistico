@@ -57,7 +57,7 @@ const MatriculadosSexoFacultad = () => {
             <Col >
                 <Card>
                     <CardHeader>
-                        Población Estudiantil Matriculados por Carrera
+                        Población Estudiantil Matriculada por Sexo, según Carrera.
                         <Form.Select
                             value={selectedGestion || ''}
                             onChange={(e) => setSelectedGestion(e.target.value)}

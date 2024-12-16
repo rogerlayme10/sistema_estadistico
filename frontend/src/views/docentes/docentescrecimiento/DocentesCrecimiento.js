@@ -3,9 +3,10 @@ import { Card, CardHeader, Row, Col, Button } from 'react-bootstrap';
 import { Line } from 'react-chartjs-2';
 import config from '../../../config';
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels'; // Etiqueta numérica
 
 // Registrar las escalas necesarias
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend,ChartDataLabels);
 
 const DocentesCrecimiento = () => {
     const [chartData, setChartData] = useState({});
@@ -22,7 +23,7 @@ const DocentesCrecimiento = () => {
                     labels: gestionLabels,
                     datasets: [
                         {
-                            label: 'Cronología del personal Docente',
+                            label: 'Cronología del Personal Docente',
                             data: docentesCounts,
                             borderColor: 'rgba(75,192,192,1)',
                             fill: false,
@@ -50,7 +51,7 @@ const DocentesCrecimiento = () => {
         <Row>
             <Col xs={18} md={9} xl={9}>
                 <Card>
-                    <CardHeader>Cronología del personal docente por gestíon </CardHeader>
+                    <CardHeader>Cronología del Personal Docente por gestión.</CardHeader>
                     <Card.Body>
                         {chartData && chartData.labels && (
                             <>
@@ -72,7 +73,7 @@ const DocentesCrecimiento = () => {
                                             y: {
                                                 title: {
                                                     display: true,
-                                                    text: 'Número de Docentes',
+                                                    text: 'Cantidad',
                                                 },
                                                 grid: {
                                                     color: 'rgba(0,0,0,0.1)', // Líneas de la cuadrícula eje Y
@@ -83,6 +84,12 @@ const DocentesCrecimiento = () => {
                                             }
                                         },
                                         plugins: {
+                                            datalabels: {
+                                                display: true, // Mostrar números
+                                                anchor: 'end', // Anclar las etiquetas al extremo superior de las barras
+                                                align: 'top',  // Alinear las etiquetas hacia la parte superior de las barras
+                                                offset: 5,     // Ajusta la distancia de la etiqueta desde la barra (puedes modificar el valor según lo necesario)
+                                              },
                                             beforeDraw: (chart) => {
                                                 const ctx = chart.ctx;
                                                 ctx.save();

@@ -45,7 +45,7 @@ const UnidadTipoContrato = () => {
             <Col >
                 <Card>
                     <CardHeader>
-                        Personal administartivos por unidad segun tipo Contrato
+                        Personal Administrativo por Tipo de Contrato, según  Unidad.
                         <FormSelect value={gestion} onChange={handleFilterChange}>
                             {years.map(year => (
                                 <option key={year} value={year}>{year}</option>

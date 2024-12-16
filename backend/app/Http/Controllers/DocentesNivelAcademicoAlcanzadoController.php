@@ -21,7 +21,16 @@ class DocentesNivelAcademicoAlcanzadoController extends Controller
             )
             ->where('gestion', $gestion)
             ->groupBy('nivel_acad')
-            ->orderBy('nivel_acad')
+            ->orderByRaw("
+            CASE 
+                WHEN nivel_acad = 'DOCTORADO' THEN 1
+                WHEN nivel_acad = 'MAESTRÍA' THEN 2
+                WHEN nivel_acad = 'ESPECIALIDAD' THEN 3
+                WHEN nivel_acad = 'LICENCIATURA' THEN 4
+                WHEN nivel_acad = 'DIPLOMADO' THEN 5
+                ELSE 6
+            END
+             ")
             ->get();
 
         return response()->json([

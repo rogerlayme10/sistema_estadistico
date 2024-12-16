@@ -93,25 +93,43 @@ const TransferenciaCarrera = () => {
     // Opciones del gráfico de barras
     const chartOptions = {
         responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'top', // Posición de la leyenda
-            },
-            tooltip: {
-                callbacks: {
-                    label: function (tooltipItem) {
-                        return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`; // Mostrar el valor en el tooltip
-                    }
-                }
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true // Comenzar la escala del eje Y en 0
-            }
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top', // Posición de la leyenda
+      },
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem) {
+            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`; // Mostrar el valor en el tooltip
+          }
         }
-    };
+      }
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Facultades'
+        },
+        ticks: {
+          maxRotation: 45, // Máxima rotación permitida
+          minRotation: 50, // Rotación mínima
+          autoSkip: true,  // Saltar etiquetas si no caben
+          font: {
+            size: 10 // Tamaño de la fuente
+          }
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Cantidad',
+        },
+        beginAtZero: true // Inicia el eje Y en 0
+      }
+    }
+};
 
 
 
@@ -120,7 +138,7 @@ const TransferenciaCarrera = () => {
             <Col xs={12} md={5} xl={5}>
                 <Card>
                     <CardHeader>
-                        transferencia, carrera segun sexo
+                        Transferencia por sexo, según Carrera.
                         <Form.Select
                             className="mt-2"
                             value={gestion}

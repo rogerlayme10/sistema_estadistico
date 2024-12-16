@@ -106,7 +106,7 @@ const PsaEdadSexo = () => {
 
     // Preparar los datos para el gráfico de barras
     const barChartData = {
-        labels: datos.map(item => `Edad ${item.edad}`), // Etiquetas de las edades
+        labels: datos.map(item => ` ${item.edad}`), // Etiquetas de las edades
         datasets: [
             {
                 label: 'Total',
@@ -127,12 +127,22 @@ const PsaEdadSexo = () => {
             },
             title: {
                 display: true,
-                text: `Totales por Edad - Gestión ${gestion}`,
+                text: `Totales por Edad`,
             },
         },
         scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Edad', // Título del eje X
+                },
+            },
             y: {
-                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Cantidad', // Título del eje Y
+                },
+                beginAtZero: true, // Asegurar que el eje Y comience en 0
             },
         },
     };
@@ -142,7 +152,7 @@ const PsaEdadSexo = () => {
             <Col xs={10} md={5} xl={5}>
                 <Card>
                     <CardHeader>
-                        Admitiods por PSA por edad y sexo 
+                        P.S.A por Sexo, según Edad. 
                         {/* Dropdown para seleccionar la gestión */}
                         <Form.Control as="select" value={gestion} onChange={(e) => setGestion(e.target.value)}>
                             {gestiones.map((g, index) => (

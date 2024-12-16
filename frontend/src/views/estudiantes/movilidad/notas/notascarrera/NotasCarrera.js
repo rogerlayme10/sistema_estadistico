@@ -70,7 +70,7 @@ const ActasCarrera = () => {
             <Col >
                 <Card>
                     <CardHeader>
-                        Certificado de notas, carrera segun sexo
+                        Certificado de Notas por sexo, según Carrera.
                         <Form.Select 
                             className="mt-2" 
                             value={gestion} 

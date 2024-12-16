@@ -57,7 +57,7 @@ const MatriculadosSexoFacultad = () => {
             <Col >
                 <Card>
                     <CardHeader>
-                        Población estudiantil matriculados nuevos y antiguos por carrera
+                        Población Estudiantil Matriculada Nuevos y Antiguos, según Carrera.
                         <Form.Select
                             value={selectedGestion || ''}
                             onChange={(e) => setSelectedGestion(e.target.value)}

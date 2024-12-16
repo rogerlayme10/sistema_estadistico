@@ -65,7 +65,7 @@ const ServicioEdad = () => {
         <Row>
             <Col>
                 <Card>
-                    <CardHeader>Personal docente por años de servicio, según edad</CardHeader>
+                    <CardHeader>Personal docente por años de servicio, según edad.</CardHeader>
                     <Form.Control as="select" value={gestionSeleccionada} onChange={handleGestionChange}>
                         {gestiones.map((gestion, index) => (
                             <option key={index} value={gestion}>

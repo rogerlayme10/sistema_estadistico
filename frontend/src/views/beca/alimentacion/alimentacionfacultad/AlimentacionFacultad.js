@@ -51,7 +51,7 @@ const AlimentacionFacultad = () => {
   const barData = {
     labels: sortedData.map(row => row.facultad),  // Etiquetas de cada facultad
     datasets: [
-      {
+      /*{
         label: 'Masculino',
         data: sortedData.map(row => row.total_m), // Total de masculino
         backgroundColor: '#36A2EB', // Color para la barra de masculino
@@ -60,13 +60,56 @@ const AlimentacionFacultad = () => {
         label: 'Femenino',
         data: sortedData.map(row => row.total_f), // Total de femenino
         backgroundColor: '#FF6384', // Color para la barra de femenino
-      },
+      },*/
       {
         label: 'Total',
         data: sortedData.map(row => row.total), // Total combinado
         backgroundColor: '#36C9C6', // Color para la barra de total
       }
     ]
+  };
+
+  // Opciones del gráfico de barras
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top', // Posición de la leyenda
+      },
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem) {
+            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`; // Mostrar el valor en el tooltip
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        stacked: true, // Habilitar apilamiento en el eje X encima de otro 
+        title: {
+          display: true,
+          text: 'Facultades'
+        },
+        ticks: {
+          maxRotation: 45, // Máxima rotación permitida
+          minRotation: 50, // Rotación mínima
+          autoSkip: true,  // Saltar etiquetas si no caben
+          font: {
+            size: 10 // Tamaño de la fuente
+          }
+        }
+      },
+      y: {
+        stacked: true, // Habilitar apilamiento en el eje Y
+        title: {
+          display: true,
+          text: 'Cantidad',
+        },
+        beginAtZero: true // Inicia el eje Y en 0
+      }
+    }
   };
 
   // Función para descargar la tabla en Excel
@@ -90,39 +133,12 @@ const AlimentacionFacultad = () => {
     saveAs(base64Image, `Beca_AlimentacionFacultad${gestion}.png`); // Guardar imagen como archivo PNG
   };
 
-  // Opciones del gráfico de barras
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top', // Posición de la leyenda
-      },
-      tooltip: {
-        callbacks: {
-          label: function (tooltipItem) {
-            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`; // Mostrar el valor en el tooltip
-          }
-        }
-      }
-    },
-    scales: {
-      y: {
-        beginAtZero: true, // Comenzar la escala del eje Y en 0
-        stacked: true,     // Habilitar apilamiento en el eje Y
-      },
-      x: {
-        stacked: true,     // Habilitar apilamiento en el eje X (opcional)
-      }
-    }
-  };
-
   return (
     <Row>
       <Col xs={12} md={5} xl={5}>
         <Card>
           <CardHeader>
-            Beca alimentacion, facultad segun sexo
+            Beca alimentación por Sexo, según Facultad.
             <Form.Select
               className="mt-2"
               value={gestion}
@@ -173,7 +189,7 @@ const AlimentacionFacultad = () => {
       </Col>
       <Col xs={14} md={7} xl={7}>
         <Card>
-          <CardHeader>Gráfica</CardHeader>
+          <CardHeader>Gráfica de Barras: Distribucion por Facultad.</CardHeader>
           <div style={{ height: '400px' }}>
             <Bar ref={chartRef} data={barData} options={chartOptions} /> {/* Cambiar PolarArea por Bar */}
           </div>
@@ -187,5 +203,3 @@ const AlimentacionFacultad = () => {
 };
 
 export default AlimentacionFacultad;
-
-

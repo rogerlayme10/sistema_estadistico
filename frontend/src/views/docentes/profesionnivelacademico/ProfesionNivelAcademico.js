@@ -45,7 +45,7 @@ const ProfesionNivelAcademico = () => {
             <Col>
                 <Card>
                     <CardHeader>
-                        Personal docente por profesión, según nivel académico
+                        Personal Docente por Nivel Aadémico, según  Profesión.
                         <FormSelect value={gestion} onChange={handleFilterChange}>
                             {years.map(year => (
                                 <option key={year} value={year}>{year}</option>

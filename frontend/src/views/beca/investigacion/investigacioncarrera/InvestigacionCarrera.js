@@ -70,7 +70,7 @@ const InvestigacionCarrera = () => {
             <Col >
                 <Card>
                     <CardHeader>
-                        Beca investigacion, carrera segun sexo
+                        Beca Investigacion por Sexo, según Carrera.
                         <Form.Select 
                             className="mt-2" 
                             value={gestion} 

@@ -89,7 +89,7 @@ const PreEdadSexo = () => {
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Edad y Sexo');
 
-        XLSX.writeFile(wb, `Admision_pre_Edad_Sexo${gestion}.xlsx`);
+        XLSX.writeFile(wb, `Admision_psa_Edad_Sexo${gestion}.xlsx`);
     };
 
     // Función para descargar el gráfico como imagen
@@ -99,14 +99,14 @@ const PreEdadSexo = () => {
             const imgURL = chart.toBase64Image(); // Convertir el gráfico a base64
             const link = document.createElement('a');
             link.href = imgURL;
-            link.download = `Admision_pre_Edad_Sexo${gestion}.png`;
+            link.download = `Admision_psa_Edad_Sexo${gestion}.png`;
             link.click();
         }
     };
 
     // Preparar los datos para el gráfico de barras
     const barChartData = {
-        labels: datos.map(item => `Edad ${item.edad}`), // Etiquetas de las edades
+        labels: datos.map(item => ` ${item.edad}`), // Etiquetas de las edades
         datasets: [
             {
                 label: 'Total',
@@ -127,12 +127,22 @@ const PreEdadSexo = () => {
             },
             title: {
                 display: true,
-                text: `Totales por Edad - Gestión ${gestion}`,
+                text: `Totales por Edad`,
             },
         },
         scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Edad', // Título del eje X
+                },
+            },
             y: {
-                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Cantidad', // Título del eje Y
+                },
+                beginAtZero: true, // Asegurar que el eje Y comience en 0
             },
         },
     };
@@ -142,7 +152,7 @@ const PreEdadSexo = () => {
             <Col xs={10} md={5} xl={5}>
                 <Card>
                     <CardHeader>
-                        Admitiods por PRE por edad y sexo 
+                        Cursos PRE Universitarios por Sexo, según Edad. 
                         {/* Dropdown para seleccionar la gestión */}
                         <Form.Control as="select" value={gestion} onChange={(e) => setGestion(e.target.value)}>
                             {gestiones.map((g, index) => (

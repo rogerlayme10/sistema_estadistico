@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardHeader, Table, Row, Col, FormSelect, Button } from 'react-bootstrap';
-import { PolarArea } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import config from '../../../config';
 import '../../../style/textgrafic/ChartOptions'; // Asegúrate de importar la configuración
 import * as XLSX from 'xlsx';
@@ -24,7 +24,7 @@ const GradoAcademicoAlcanzado = () => {
     const handleFilterChange = (event) => {
         setGestion(event.target.value);
     };
-    //descargra el excel
+
     const handleExportToExcel = () => {
         const ws = XLSX.utils.json_to_sheet(data.map(item => ({
             'Nivel Académico': item.nivel_acad,
@@ -38,7 +38,7 @@ const GradoAcademicoAlcanzado = () => {
         XLSX.utils.book_append_sheet(wb, ws, 'Grado Académico Alcanzado');
         XLSX.writeFile(wb, 'docente_grado_academico.xlsx');
     };
-    //descargra img
+
     const handleExportChartAsImage = () => {
         const canvas = document.querySelector('canvas');
         if (canvas) {
@@ -82,6 +82,14 @@ const GradoAcademicoAlcanzado = () => {
     const chartOptions = {
         responsive: true,
         maintainAspectRatio: false,
+        scales: {
+            x: {
+                beginAtZero: true,
+            },
+            y: {
+                beginAtZero: true,
+            },
+        },
     };
 
     return (
@@ -89,19 +97,18 @@ const GradoAcademicoAlcanzado = () => {
             <Col xs={12} md={6} xl={6}>
                 <Card>
                     <CardHeader>
-                        Personal docente por nivel,ségun grado académico alcanzado
+                        Personal Docente por Categoria, según Grado Alcanzado.
                         <FormSelect value={gestion} onChange={handleFilterChange}>
                             {years.map(year => (
                                 <option key={year} value={year}>{year}</option>
                             ))}
                         </FormSelect>
-
                     </CardHeader>
                     <Table bordered>
                         <thead>
                             <tr>
                                 <th rowSpan="2">Nivel Académico</th>
-                                <th colSpan="4" className="text-center">Nivel Docente</th>
+                                <th colSpan="4" className="text-center">Categoria</th>
                                 <th rowSpan="2">Total</th>
                             </tr>
                             <tr>
@@ -139,12 +146,9 @@ const GradoAcademicoAlcanzado = () => {
             </Col>
             <Col xs={12} md={6} xl={6}>
                 <Card>
-                    <CardHeader>
-                        Gráfico
-
-                    </CardHeader>
+                    <CardHeader>Gráfico de Barras: Distribución por Grado Alcanzado</CardHeader>
                     <div style={{ height: '400px' }}>
-                        <PolarArea data={chartData} options={chartOptions} />
+                        <Bar data={chartData} options={chartOptions} />
                     </div>
                     <Button onClick={handleExportChartAsImage} variant="primary" className="mt-3">Descargar Gráfico</Button>
                 </Card>
@@ -154,5 +158,3 @@ const GradoAcademicoAlcanzado = () => {
 };
 
 export default GradoAcademicoAlcanzado;
-
-

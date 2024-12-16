@@ -39,7 +39,7 @@ const MatriculadosSexoFacultad = () => {
         fetchData("2023");
     }, []);
 
-    // Descargar tabla como Excel
+
     const exportToExcel = () => {
         const worksheet = XLSX.utils.json_to_sheet(data);
         const workbook = XLSX.utils.book_new();
@@ -57,7 +57,7 @@ const MatriculadosSexoFacultad = () => {
             <Col >
                 <Card>
                     <CardHeader>
-                        Población estudiantil matriculados regulares,segun sexo 
+                        Población estudiantil matriculada regulares ´por sexo, según Carrera. 
                         <Form.Select
                             value={selectedGestion || ''}
                             onChange={(e) => setSelectedGestion(e.target.value)}

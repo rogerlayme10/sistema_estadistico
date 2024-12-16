@@ -5,11 +5,11 @@ import * as XLSX from 'xlsx';
 //import { Bar } from 'react-chartjs-2';
 
 
-const MatriculadosProgramadosCarrera = () => {
+const MatriculadosProgramadosFacultad = () => {
     const [data, setData] = useState([]);
     const [gestiones, setGestiones] = useState([]);
     const [selectedGestion, setSelectedGestion] = useState("2023");
-    
+
 
     const fetchData = async (gestion) => {
         try {
@@ -19,7 +19,7 @@ const MatriculadosProgramadosCarrera = () => {
 
             const response = await fetch(url);
             const result = await response.json();
-            
+
             if (gestion) {
                 setData(result);
             } else {
@@ -39,25 +39,39 @@ const MatriculadosProgramadosCarrera = () => {
         fetchData("2023");
     }, []);
 
-    // Descargar tabla como Excel
     const exportToExcel = () => {
-        const worksheet = XLSX.utils.json_to_sheet(data);
+        // Preparar los datos con la columna de porcentaje
+        const excelData = data.map((item) => {
+            const porcentaje = item.total_matriculados
+                ? ((item.total_programados / item.total_matriculados) * 100).toFixed(2) + '%'
+                : '0%';
+    
+            return {
+                Carrera: item.programa,
+                Matriculados: item.total_matriculados,
+                Programados: item.total_programados,
+                Porcentaje: porcentaje, // Agregar columna de porcentaje
+            };
+        });
+    
+        // Crear hoja de Excel con los datos actualizados
+        const worksheet = XLSX.utils.json_to_sheet(excelData);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Matriculados");
-
-        XLSX.writeFile(workbook, `Matriculados_Carrera_${selectedGestion}.xlsx`);
+    
+        // Descargar el archivo Excel
+        XLSX.writeFile(workbook, `Matriculados_Sexo_Carrera_${selectedGestion}.xlsx`);
     };
 
-   
 
-    
+
 
     return (
         <Row>
             <Col >
                 <Card>
                     <CardHeader>
-                        Población estudiantil  programados según carrera
+                        Población Estudiantil Matriculadados y Programados,según Carrera.
                         <Form.Select
                             value={selectedGestion || ''}
                             onChange={(e) => setSelectedGestion(e.target.value)}
@@ -75,38 +89,56 @@ const MatriculadosProgramadosCarrera = () => {
                         <thead>
                             <tr>
                                 <th rowSpan="2">Carrera</th>
-                                <th colSpan="2" className="text-center">Periodo</th>
-                                <th rowSpan="2">Total</th>
+                                <th colSpan="3" className="text-center">Estudiantes</th>
                             </tr>
                             <tr>
-                                <th>Semestre 1</th>
-                                <th>Semeestre 2</th>
+                                <th>Matriculados</th>
+                                <th>Programados</th>
+                                <th>%</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((item, index) => (
-                                <tr key={index}>
-                                    <td>{item.programa}</td>
-                                    <td>{item.total_semestre1}</td>
-                                    <td>{item.total_semestre2}</td>
-                                    <td>{item.total}</td>
-                                </tr>
-                            ))}
+                            {data.map((item, index) => {
+                                // Verifica que total_matriculados no sea 0 para evitar divisiones por cero
+                                const porcentaje = item.total_matriculados
+                                    ? ((item.total_programados / item.total_matriculados) * 100).toFixed(2)
+                                    : 0;
+
+                                return (
+                                    <tr key={index}>
+                                        <td>{item.programa}</td>
+                                        <td>{item.total_matriculados}</td>
+                                        <td>{item.total_programados}</td>
+                                        <td>{porcentaje}%</td> {/* Muestra el porcentaje */}
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th>Total</th>
-                                <th>{data.reduce((acc, item) => acc + item.total_semestre1, 0)}</th>
-                                <th>{data.reduce((acc, item) => acc + item.total_semestre2, 0)}</th>
-                                <th>{data.reduce((acc, item) => acc + item.total, 0)}</th>
+                                <th>{data.reduce((acc, item) => acc + item.total_matriculados, 0)}</th>
+                                <th>{data.reduce((acc, item) => acc + item.total_programados, 0)}</th>
+                                <th>
+                                    {(() => {
+                                        const totalMatriculados = data.reduce((acc, item) => acc + item.total_matriculados, 0);
+                                        const totalProgramados = data.reduce((acc, item) => acc + item.total_programados, 0);
+                                        return totalMatriculados
+                                            ? ((totalProgramados / totalMatriculados) * 100).toFixed(2) + '%'
+                                            : '0%';
+                                    })()}
+                                </th>
                             </tr>
                         </tfoot>
                     </Table>
                     <Button className="mt-3" onClick={exportToExcel}>Descargar Excel</Button>
                 </Card>
             </Col>
+
         </Row>
     );
 }
 
-export default MatriculadosProgramadosCarrera;
+export default MatriculadosProgramadosFacultad;
+

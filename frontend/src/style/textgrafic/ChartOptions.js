@@ -41,7 +41,7 @@ export const specificChartOptions = {
       }
     },
     datalabels: {
-      display: true,
+      display: false, //los numeros  de forma fisica 
       color: 'black',
       align: 'end',  // Puedes cambiar esto a 'center' o 'start' si prefieres
       anchor: 'end',

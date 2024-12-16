@@ -1,34 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardHeader, Table, Row, Col, Button } from 'react-bootstrap';
-import { Line } from 'react-chartjs-2';
 import config from '../../../../../config';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
 import * as XLSX from 'xlsx'; // Para exportar la tabla a Excel
-
-// Registrar los componentes de Chart.js
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
 
 const PsaCrecimientoAceptados = () => {
     const [data, setData] = useState([]);
     const [gestiones, setGestiones] = useState([]);
-    const chartRef = useRef(null); // Referencia para el gráfico
+    const [tasas, setTasas] = useState({});
 
     // Obtener los datos de la API
     const fetchData = async () => {
@@ -37,6 +15,7 @@ const PsaCrecimientoAceptados = () => {
             const result = await response.json();
             setGestiones(result.gestiones);
             setData(result.datos);
+            setTasas(result.tasas);
         } catch (error) {
             console.error("Error al obtener los datos: ", error);
         }
@@ -46,35 +25,10 @@ const PsaCrecimientoAceptados = () => {
         fetchData();
     }, []);
 
-    // Preparamos los datos para el gráfico de líneas
-    const lineChartData = {
-        labels: gestiones, // Las gestiones serán las etiquetas del eje X
-        datasets: [
-            {
-                label: 'Total de Postulantes PSA Aceptados',
-                data: gestiones.map((gestion) =>
-                    data.reduce((sum, row) => sum + (row[`total_${gestion}`] || 0), 0)
-                ),
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                fill: true,
-            },
-        ],
-    };
-
-    // Opciones del gráfico, incluyendo la configuración del eje Y
-    const lineChartOptions = {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'Crecimiento de postulantes PSA Aceptados',
-            },
-        },
-        
+    // Función para calcular la tasa de crecimiento
+    const calculateGrowthRate = (current, previous) => {
+        if (previous === 0 || previous === null || current === null) return null;
+        return (((current - previous) / previous) * 100).toFixed(2);
     };
 
     // Función para descargar la tabla en Excel
@@ -86,7 +40,10 @@ const PsaCrecimientoAceptados = () => {
                     acc[`Total ${gestion}`] = row[`total_${gestion}`];
                     return acc;
                 }, {}),
-                Total: row.total,
+                ...Object.keys(tasas).reduce((acc, periodo) => {
+                    acc[`Tasa ${periodo}`] = tasas[periodo][row.programa] || "";
+                    return acc;
+                }, {})
             }))
         );
         const workbook = XLSX.utils.book_new();
@@ -94,31 +51,24 @@ const PsaCrecimientoAceptados = () => {
         XLSX.writeFile(workbook, "tasa_crecimiento_postulantes_psa.xlsx");
     };
 
-    // Función para descargar el gráfico como imagen
-    const downloadChartImage = () => {
-        const chart = chartRef.current; // Obtenemos la referencia al gráfico
-        const url = chart.toBase64Image(); // Convertimos el gráfico a una imagen en base64
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'grafico_tasa_crecimiento_nuevos.png';
-        link.click();
-    };
-
     return (
         <Row>
-            <Col xs={12} md={6} xl={6}>
+            <Col xs={12}>
                 <Card>
-                    <CardHeader>Tasa de crecimiento postulantes de PSA Aceptados </CardHeader>
+                    <CardHeader>P.S.A. Tasa de Crecimiento de Aceptados por Gestión, según Carrera</CardHeader>
                     <Table bordered>
                         <thead>
                             <tr>
                                 <th rowSpan="2">Carrera</th>
                                 <th colSpan={gestiones.length} className="text-center">Gestión</th>
-                                <th rowSpan="2">Total</th>
+                                <th colSpan={Object.keys(tasas).length} className="text-center">Tasa Crecimiento</th>
                             </tr>
                             <tr>
                                 {gestiones.map((gestion) => (
                                     <th key={gestion}>{gestion}</th>
+                                ))}
+                                {Object.keys(tasas).map((periodo) => (
+                                    <th key={periodo}> {periodo}</th>
                                 ))}
                             </tr>
                         </thead>
@@ -129,33 +79,41 @@ const PsaCrecimientoAceptados = () => {
                                     {gestiones.map((gestion) => (
                                         <td key={gestion}>{row[`total_${gestion}`]}</td>
                                     ))}
-                                    <td>{row.total}</td>
+                                    {Object.keys(tasas).map((periodo) => (
+                                        <td key={periodo}>
+                                            {tasas[periodo][data.indexOf(row)] != null
+                                                ? tasas[periodo][data.indexOf(row)].toFixed(2) + "%"
+                                                : ""}
+                                        </td>
+                                    ))}
                                 </tr>
                             ))}
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th>Total</th>
+                                {/* Calcular el total por columna de gestiones */}
                                 {gestiones.map((gestion) => (
                                     <th key={gestion}>
                                         {data.reduce((sum, row) => sum + (row[`total_${gestion}`] || 0), 0)}
                                     </th>
                                 ))}
-                                <th>{data.reduce((sum, row) => sum + row.total, 0)}</th>
+                                {/* Calcular la tasa de crecimiento de los totales */}
+                                {Object.keys(tasas).map((periodo) => {
+                                    const [start, end] = periodo.split('-');
+                                    const totalEnd = data.reduce((sum, row) => sum + (row[`total_${end}`] || 0), 0);
+                                    const totalStart = data.reduce((sum, row) => sum + (row[`total_${start}`] || 0), 0);
+                                    const growthRate = calculateGrowthRate(totalEnd, totalStart);
+                                    return (
+                                        <th key={periodo}>
+                                            {growthRate != null ? growthRate + "%" : ""}
+                                        </th>
+                                    );
+                                })}
                             </tr>
                         </tfoot>
                     </Table>
-                    {/* Botón para descargar la tabla en Excel */}
                     <Button onClick={downloadExcel} variant="primary">Descargar Tabla en Excel</Button>
-                </Card>
-            </Col>
-            <Col xs={12} md={6} xl={6}>
-                <Card>
-                    <CardHeader>Gráfico</CardHeader>
-                    {/* Gráfico de líneas */}
-                    <Line ref={chartRef} data={lineChartData} options={lineChartOptions} />
-                    {/* Botón para descargar el gráfico como imagen */}
-                    <Button onClick={downloadChartImage} variant="primary">Descargar Gráfico como Imagen</Button>
                 </Card>
             </Col>
         </Row>

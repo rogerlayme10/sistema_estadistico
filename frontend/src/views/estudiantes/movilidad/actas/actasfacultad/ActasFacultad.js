@@ -108,8 +108,28 @@ const ActasFacultad = () => {
       }
     },
     scales: {
+      x: {
+        stacked: true, // Habilitar apilamiento en el eje X encima de otro 
+        title: {
+          display: true,
+          text: 'Facultades'
+        },
+        ticks: {
+          maxRotation: 45, // Máxima rotación permitida
+          minRotation: 50, // Rotación mínima
+          autoSkip: true,  // Saltar etiquetas si no caben
+          font: {
+            size: 10 // Tamaño de la fuente
+          }
+        }
+      },
       y: {
-        beginAtZero: true // Comenzar la escala del eje Y en 0
+        stacked: true, // Habilitar apilamiento en el eje Y
+        title: {
+          display: true,
+          text: 'Cantidad',
+        },
+        beginAtZero: true // Inicia el eje Y en 0
       }
     }
   };
@@ -119,7 +139,7 @@ const ActasFacultad = () => {
       <Col xs={12} md={5} xl={5}>
         <Card>
           <CardHeader>
-            Certificado de actas, facultad segun sexo
+            Certificado de Actas por Sexo, según Facultad.
             <Form.Select
               className="mt-2"
               value={gestion}
@@ -170,7 +190,7 @@ const ActasFacultad = () => {
       </Col>
       <Col xs={14} md={7} xl={7}>
         <Card>
-          <CardHeader>Gráfica</CardHeader>
+          <CardHeader>Gráfica de Barras: Distribucion por Facultad.</CardHeader>
           <div style={{ height: '400px' }}>
             <Bar ref={chartRef} data={barData} options={chartOptions} /> {/* Cambiar PolarArea por Bar */}
           </div>
@@ -179,82 +199,7 @@ const ActasFacultad = () => {
           </Button>
         </Card>
       </Col>
-      <Col xs={12}>
-            <Card style={{ marginTop: '20px' }}>
-                <CardHeader>Certificado de actas,carrera segun sexo </CardHeader>
-                <Table bordered>
-                    <thead>
-                        <tr>
-                            <th rowSpan="2">Nivel Académico</th>
-                            <th colSpan="4" className="text-center">Categoria</th>
-                            <th rowSpan="2">Total</th>
-                        </tr>
-                        <tr>
-                            <th>Catedrático</th>
-                            <th>Adjunto</th>
-                            <th>Asistente</th>
-                            <th>Asistente a.i.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Maestría</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>7</td>
-                            <td>22</td>
-                        </tr>
-                        <tr>
-                            <td>Diplomado</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>8</td>
-                            <td>9</td>
-                            <td>22</td>
-                        </tr>
-                        <tr>
-                            <td>Doctorado</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>8</td>
-                            <td>9</td>
-                            <td>22</td>
-                        </tr>
-                        <tr>
-                            <td>Asistente</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>8</td>
-                            <td>9</td>
-                            <td>22</td>
-                        </tr>
-                        <tr>
-                            <td>Asisitente A</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>8</td>
-                            <td>9</td>
-                            <td>22</td>
-                        </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Total</th>
-                                <th>6</th>
-                                <th>8</th>
-                                <th>14</th>
-                                <th>16</th>
-                                <th>44</th>
-                            </tr>
-                        </tfoot>
-                </Table>
-                <Button variant="primary" onClick={downloadChartImage} className="mt-2">
-                Descargar Gráfico en Imagen
-                </Button>
-            </Card>
-        </Col>
-
+      
     </Row>
     
   );

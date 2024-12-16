@@ -19,11 +19,12 @@ class EstudiantesRegularMatriculadosCarreraController extends Controller
                 ->select('programas.programa',
                     DB::raw("SUM(CASE WHEN sexo = 'M' THEN 1 ELSE 0 END) as total_masculino"), 
                     DB::raw("SUM(CASE WHEN sexo = 'F' THEN 1 ELSE 0 END) as total_femenino"), 
-                    DB::raw("COUNT(DISTINCT matriculas.nro_dip) as total"))
+                    DB::raw("COUNT(*) as total"))
                 ->where('matriculas.gestion', '=', $gestion)
                 // Excluir programas con id_programa "EXI", "EDI", "EXQ"
                 ->whereNotIn('matriculas.id_programa', ['EDI', 'EDT', 'EXI', 'EXQ'])
                 ->where('matriculas.tipo_verificado', '=', 'ANTIGUO')
+                ->where('matriculas.periodo', '=', '1')
                 ->groupBy('programas.programa')
                 ->get();
     

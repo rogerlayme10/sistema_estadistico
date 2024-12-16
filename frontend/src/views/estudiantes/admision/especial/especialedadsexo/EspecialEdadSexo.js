@@ -8,25 +8,25 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const EspecialEdadSexo = () => {
-    const [gestion, setGestion] = useState('');  // Gestión predeterminada vacía
-    const [gestiones, setGestiones] = useState([]);  // Lista de gestiones disponibles
+    const [gestion, setGestion] = useState(''); 
+    const [gestiones, setGestiones] = useState([]);  
     const [datos, setDatos] = useState([]);
     const [totalM, setTotalM] = useState(0);
     const [totalF, setTotalF] = useState(0);
     const [totalGeneral, setTotalGeneral] = useState(0);
 
-    // Crear una referencia al gráfico
+   
     const chartRef = useRef(null);
 
     useEffect(() => {
-        // Función para obtener las gestiones disponibles
+       
         const fetchGestiones = async () => {
             try {
                 const response = await fetch(`${config.API_URL}/especial-edadsexo`);
                 const gestionesData = await response.json();
-                setGestiones(gestionesData);  // Guardar las gestiones en el estado
+                setGestiones(gestionesData); 
                 if (gestionesData.length > 0) {
-                    setGestion(gestionesData[0].gestion); // Establecer la primera gestión como predeterminada
+                    setGestion(gestionesData[0].gestion); 
                 }
             } catch (error) {
                 console.error('Error fetching gestiones:', error);
@@ -37,7 +37,7 @@ const EspecialEdadSexo = () => {
     }, []);
 
     useEffect(() => {
-        // Función para obtener los datos de edad y sexo usando la gestión seleccionada
+        
         const fetchDatos = async () => {
             if (!gestion) return;
 
@@ -89,7 +89,7 @@ const EspecialEdadSexo = () => {
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Edad y Sexo');
 
-        XLSX.writeFile(wb, `Admision_pre_Edad_Sexo${gestion}.xlsx`);
+        XLSX.writeFile(wb, `Admision_psa_Edad_Sexo${gestion}.xlsx`);
     };
 
     // Función para descargar el gráfico como imagen
@@ -99,14 +99,14 @@ const EspecialEdadSexo = () => {
             const imgURL = chart.toBase64Image(); // Convertir el gráfico a base64
             const link = document.createElement('a');
             link.href = imgURL;
-            link.download = `Admision_pre_Edad_Sexo${gestion}.png`;
+            link.download = `Admision_psa_Edad_Sexo${gestion}.png`;
             link.click();
         }
     };
 
     // Preparar los datos para el gráfico de barras
     const barChartData = {
-        labels: datos.map(item => `Edad ${item.edad}`), // Etiquetas de las edades
+        labels: datos.map(item => ` ${item.edad}`), // Etiquetas de las edades
         datasets: [
             {
                 label: 'Total',
@@ -127,12 +127,22 @@ const EspecialEdadSexo = () => {
             },
             title: {
                 display: true,
-                text: `Totales por Edad - Gestión ${gestion}`,
+                text: `Totales por Edad`,
             },
         },
         scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Edad', // Título del eje X
+                },
+            },
             y: {
-                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Cantidad', // Título del eje Y
+                },
+                beginAtZero: true, // Asegurar que el eje Y comience en 0
             },
         },
     };
@@ -142,7 +152,7 @@ const EspecialEdadSexo = () => {
             <Col xs={10} md={5} xl={5}>
                 <Card>
                     <CardHeader>
-                        Admitiods por Admision Especial por edad y sexo 
+                        Admision Especial por Sexo, según Edad. 
                         {/* Dropdown para seleccionar la gestión */}
                         <Form.Control as="select" value={gestion} onChange={(e) => setGestion(e.target.value)}>
                             {gestiones.map((g, index) => (

@@ -37,7 +37,7 @@ class EstudiantesRegularCrecimientoCarreraController extends Controller
             ->where('tipo_verificado', '=', 'ANTIGUO') // Solo estudiantes nuevos
             // Excluir programas con id_programa "EXI", "EDI", "EXQ"
             ->whereNotIn('matriculas.id_programa', ['EDI', 'EDT', 'EXI', 'EXQ'])
-            
+            ->where('matriculas.periodo', '=', '1')
             ->groupBy('programas.programa')
             ->get();
 

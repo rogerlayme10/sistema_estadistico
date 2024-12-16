@@ -107,8 +107,28 @@ const DocenciaFacultad = () => {
       }
     },
     scales: {
+      x: {
+        stacked: true, // Habilitar apilamiento en el eje X
+        title: {
+          display: true,
+          text: 'Facultades'
+        },
+        ticks: {
+          maxRotation: 45, // Máxima rotación permitida
+          minRotation: 50, // Rotación mínima
+          autoSkip: true,  // Saltar etiquetas si no caben
+          font: {
+            size: 10 // Tamaño de la fuente
+          }
+        }
+      },
       y: {
-        beginAtZero: true // Comenzar la escala del eje Y en 0
+        stacked: true, // Habilitar apilamiento en el eje Y
+        title: {
+          display: true,
+          text: 'Cantidad',
+        },
+        beginAtZero: true // Inicia el eje Y en 0
       }
     }
   };
@@ -118,7 +138,7 @@ const DocenciaFacultad = () => {
       <Col xs={12} md={5} xl={5}>
         <Card>
           <CardHeader>
-            Beca docencia, facultad segun sexo
+            Beca Auxiliar de Docencia por Sexo, según Facultad.
             <Form.Select
               className="mt-2"
               value={gestion}
@@ -169,7 +189,7 @@ const DocenciaFacultad = () => {
       </Col>
       <Col xs={14} md={7} xl={7}>
         <Card>
-          <CardHeader>Gráfica</CardHeader>
+          <CardHeader>Gráfica de Barras: Distribucion por Facultad</CardHeader>
           <div style={{ height: '400px' }}>
             <Bar ref={chartRef} data={barData} options={chartOptions} /> {/* Cambiar PolarArea por Bar */}
           </div>

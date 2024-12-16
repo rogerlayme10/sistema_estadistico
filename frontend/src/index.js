@@ -6,10 +6,14 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { Provider } from 'react-redux'
 import store from './store'
+import { GestionProvider } from './components/contex/GestionContex' // Importa tu contexto
+
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <App />
+    <GestionProvider> {/* Envolvemos el componente raíz */}
+      <App />
+    </GestionProvider>
   </Provider>,
 )
 

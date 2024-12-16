@@ -66,7 +66,7 @@ const MatriculadosSexoFacultad = () => {
     const chartData = {
         labels: data.map(item => item.facultad),
         datasets: [
-            {
+           /* {
                 label: 'Nuevos',
                 data: data.map(item => item.total_nuevo),
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
@@ -75,7 +75,7 @@ const MatriculadosSexoFacultad = () => {
                 label: 'Antiguos',
                 data: data.map(item => item.total_antiguo),
                 backgroundColor: 'rgba(255, 99, 132, 0.6)',
-            },
+            },*/
             {
                 label:'Total',
                 data: data.map(item => item.total),
@@ -98,6 +98,31 @@ const MatriculadosSexoFacultad = () => {
                 text: `Distribución por Sexo - Gestión ${selectedGestion}`,
             },
         },
+        scales: {
+            x: {
+              stacked: true, // Habilitar apilamiento en el eje X encima de otro 
+              title: {
+                display: true,
+                text: 'Facultades'
+              },
+              ticks: {
+                maxRotation: 45, // Máxima rotación permitida
+                minRotation: 50, // Rotación mínima
+                autoSkip: true,  // Saltar etiquetas si no caben
+                font: {
+                  size: 10 // Tamaño de la fuente
+                }
+              }
+            },
+            y: {
+              stacked: true, // Habilitar apilamiento en el eje Y
+              title: {
+                display: true,
+                text: 'Cantidad',
+              },
+              beginAtZero: true // Inicia el eje Y en 0
+            }
+          }
     };
 
     return (
@@ -105,7 +130,7 @@ const MatriculadosSexoFacultad = () => {
             <Col xs={12} md={6} xl={6}>
                 <Card>
                     <CardHeader>
-                        Población Estudiantil Matriculados Nuevos y Antiguos por Facultad.
+                        Población Estudiantil Matriculados Nuevos y Antiguos, según Facultad.
                         <Form.Select
                             value={selectedGestion || ''}
                             onChange={(e) => setSelectedGestion(e.target.value)}
@@ -155,7 +180,7 @@ const MatriculadosSexoFacultad = () => {
             </Col>
             <Col xs={12} md={6} xl={6}>
                 <Card>
-                    <CardHeader>Gráfico</CardHeader>
+                    <CardHeader>Gráfica de Barras: Distribucion por Facultad.</CardHeader>
                     <Bar data={chartData} options={chartOptions} ref={chartRef} />  {/* Asignar la referencia al gráfico */}
                     <Button className="mt-3" onClick={downloadChartImage}>Descargar Gráfico</Button>
                 </Card>

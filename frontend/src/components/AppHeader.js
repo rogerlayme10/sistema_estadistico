@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import '../style/text/texto.css'
+import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import '../style/text/texto.css';
 import {
   CContainer,
   CDropdown,
@@ -14,33 +13,39 @@ import {
   CNavLink,
   CNavItem,
   useColorModes,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import {
- 
-  cilContrast,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilContrast, cilMenu, cilMoon, cilSun } from '@coreui/icons';
 
-  cilMenu,
-  cilMoon,
-  cilSun,
-} from '@coreui/icons'
-
-import { AppBreadcrumb } from './index'
-import { AppHeaderDropdown } from './header/index'
+import { AppBreadcrumb } from './index';
+import { AppHeaderDropdown } from './header/index';
+import config from '../config'; // Importa tu configuración de rutas
 
 const AppHeader = () => {
-  const headerRef = useRef()
-  const { colorMode, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
-
-  const dispatch = useDispatch()
-  const sidebarShow = useSelector((state) => state.sidebarShow)
+  const headerRef = useRef();
+  const { colorMode, setColorMode } = useColorModes('coreui-free-react-admin-template-theme');
+  const [ultimaGestion, setUltimaGestion] = useState(null); // Estado para la última gestión
+  const dispatch = useDispatch();
+  const sidebarShow = useSelector((state) => state.sidebarShow);
 
   useEffect(() => {
+    // Agregar sombra al scroll
     document.addEventListener('scroll', () => {
       headerRef.current &&
-        headerRef.current.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0)
-    })
-  }, [])
+        headerRef.current.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0);
+    });
+
+    // Obtener la última gestión desde la API
+    fetch(`${config.API_URL}/dashboard-data`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.gestiones && data.gestiones.length > 0) {
+          const gestionesOrdenadas = data.gestiones.sort((a, b) => b.gestion - a.gestion);
+          setUltimaGestion(gestionesOrdenadas[0].gestion); // Última gestión
+        }
+      })
+      .catch((error) => console.error('Error al obtener la última gestión:', error));
+  }, []);
 
   return (
     <CHeader position="sticky" className="mb-4 p-0" ref={headerRef}>
@@ -53,12 +58,10 @@ const AppHeader = () => {
         </CHeaderToggler>
         <CHeaderNav className="d-none d-md-flex">
           <CNavItem>
-            <CNavLink className="text" >
-              Univeridad Autonoma Tomas Frias
-            </CNavLink>
+            <CNavLink className="text">Universidad Autónoma Tomás Frías</CNavLink>
+            <CNavLink className="text" style={{ display: 'block', textAlign: 'center' }}>Estadísticas Universitarias</CNavLink>
           </CNavItem>
         </CHeaderNav>
-        
         <CHeaderNav>
           <li className="nav-item py-1">
             <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
@@ -113,7 +116,7 @@ const AppHeader = () => {
         <AppBreadcrumb />
       </CContainer>
     </CHeader>
-  )
-}
+  );
+};
 
-export default AppHeader
+export default AppHeader;

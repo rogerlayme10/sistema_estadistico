@@ -45,7 +45,7 @@ const DepartamentoCarrera = () => {
             <Col xs={12}>
                 <Card>
                     <CardHeader>
-                        Población universitaria estudiantes nuevos por carrera, según Departamento de Nacimiento.
+                        Población Estudiantila Nuevos por Lugar de Nacimiento y Departamento, Según Carrera.
                         <Form.Select
                             value={selectedYear}
                             onChange={(e) => setSelectedYear(e.target.value)}

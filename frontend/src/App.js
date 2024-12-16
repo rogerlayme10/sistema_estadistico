@@ -1,15 +1,15 @@
 import React, { Suspense, useEffect } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
+
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 
 // Pages
-
+const Principal = React.lazy(() => import('./components/Principal')) // Asegúrate de que esta sea la ruta correcta para Principal
 
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
@@ -39,7 +39,10 @@ const App = () => {
         }
       >
         <Routes>
+          {/* Ruta para Principal sin el layout */}
+          <Route path="/" element={<Principal />} />
           
+          {/* Todas las demás rutas usan el layout por defecto */}
           <Route path="*" name="Home" element={<DefaultLayout />} />
         </Routes>
       </Suspense>
@@ -48,3 +51,4 @@ const App = () => {
 }
 
 export default App
+

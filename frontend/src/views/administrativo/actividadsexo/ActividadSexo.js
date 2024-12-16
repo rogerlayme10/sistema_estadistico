@@ -40,14 +40,33 @@ const ActividadSexo = () => {
     // Ordenar los datos por 'actividad' alfabéticamente
     const sortedData = [...data].sort((a, b) => a.actividad.localeCompare(b.actividad));
 
-    // Preparar los datos para el gráfico PolarArea
+    // Calcular el total general
+    const totalGeneral = sortedData.reduce((acc, row) => acc + row.total, 0);
+
+    // Preparar los datos para el gráfico PolarArea en porcentaje
     const polarData = {
-        labels: sortedData.map(row => row.actividad),  // Etiquetas de cada tipo de contrato
+        labels: sortedData.map(row => row.actividad), // Etiquetas de cada actividad
         datasets: [{
-            label: 'Distribución por contrato y sexo',
-            data: sortedData.map(row => row.total), // Usamos el total de cada tipo de contrato
+            label: 'Distribución en % por actividad',
+            data: sortedData.map(row => ((row.total / totalGeneral) * 100).toFixed(2)), // Convertir a porcentaje y limitar a 2 decimales
             backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'], // Colores para cada segmento
         }]
+    };
+
+    // Configuración del gráfico
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        const value = context.raw; // Valor del dataset
+                        return `${context.label}: ${value}%`; // Mostrar el valor con %
+                    }
+                }
+            }
+        }
     };
 
     // Función para descargar la tabla en Excel
@@ -71,17 +90,12 @@ const ActividadSexo = () => {
         saveAs(base64Image, `administrativos_actividad_sexo_${gestion}.png`); // Guardar imagen como archivo PNG
     };
 
-    const chartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-    };
-
     return (
         <Row>
             <Col xs={12} md={6} xl={6}>
                 <Card>
                     <CardHeader>
-                        Personal administrativo por sexo, segun actividad
+                        Personal Administrativo por Sexo, según Actividad.
                         <Form.Select 
                             className="mt-2" 
                             value={gestion} 
@@ -100,6 +114,7 @@ const ActividadSexo = () => {
                                 <th rowSpan="2">Actividad</th>
                                 <th colSpan="2" className="text-center">Sexo</th>
                                 <th rowSpan="2">Total</th>
+                                {/*<th rowSpan="2">%</th>*/}
                             </tr>
                             <tr>
                                 <th>M</th>
@@ -113,6 +128,7 @@ const ActividadSexo = () => {
                                     <td>{row.total_m}</td>
                                     <td>{row.total_f}</td>
                                     <td>{row.total}</td>
+                                    {/*<td>{((row.total / totalGeneral) * 100).toFixed(2)}%</td>*/}
                                 </tr>
                             ))}
                         </tbody>
@@ -121,7 +137,8 @@ const ActividadSexo = () => {
                                 <th>Total</th>
                                 <th>{sortedData.reduce((acc, row) => acc + row.total_m, 0)}</th>
                                 <th>{sortedData.reduce((acc, row) => acc + row.total_f, 0)}</th>
-                                <th>{sortedData.reduce((acc, row) => acc + row.total, 0)}</th>
+                                <th>{totalGeneral}</th>
+                                {/*<th>100%</th>*/}
                             </tr>
                         </tfoot>
                     </Table>
@@ -132,7 +149,7 @@ const ActividadSexo = () => {
             </Col>
             <Col xs={12} md={6} xl={6}>
                 <Card>
-                    <CardHeader>Garfica</CardHeader>
+                    <CardHeader>Gráfico Polar: Distribución por Actividad</CardHeader>
                     <div style={{ height: '400px' }}>
                         <PolarArea ref={chartRef} data={polarData} options={chartOptions} />
                     </div>
@@ -146,4 +163,3 @@ const ActividadSexo = () => {
 };
 
 export default ActividadSexo;
-

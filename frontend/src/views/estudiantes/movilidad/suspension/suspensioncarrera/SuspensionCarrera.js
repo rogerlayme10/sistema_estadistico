@@ -70,7 +70,7 @@ const SuspensionCarrera = () => {
             <Col >
                 <Card>
                     <CardHeader>
-                        Suspension, carrera segun sexo
+                        Suspension por sexo, según Carrera.
                         <Form.Select 
                             className="mt-2" 
                             value={gestion} 

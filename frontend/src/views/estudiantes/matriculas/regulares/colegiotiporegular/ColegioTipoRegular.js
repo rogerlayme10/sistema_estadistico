@@ -1,15 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Card, CardHeader, Table, Row, Col, Form, Button } from 'react-bootstrap';
-import { Doughnut } from 'react-chartjs-2';
-import { Chart, ArcElement, Legend, Tooltip } from 'chart.js'; // Importa los elementos necesarios
+import { Bar } from 'react-chartjs-2'; // Cambiar Doughnut por Bar
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Legend,
+    Tooltip
+} from 'chart.js'; // Importa los elementos necesarios
 import { saveAs } from 'file-saver'; // Mantenemos esta importación para usarla
 import * as XLSX from 'xlsx'; // Para exportar a Excel
 import config from '../../../../../config'; // Archivo donde defines tu URL base
 
-// Registra los elementos que necesitas para los gráficos
-Chart.register(ArcElement, Legend, Tooltip);
+// Registra los elementos que necesitas para los gráficos de barras
+ChartJS.register(CategoryScale, LinearScale, BarElement, Legend, Tooltip);
 
-const ColegioTipoNuevos = () => {
+const ColegioTipoRegular = () => {
     const [data, setData] = useState([]);
     const [years, setYears] = useState([]);
     const [selectedYear, setSelectedYear] = useState(""); 
@@ -46,7 +53,7 @@ const ColegioTipoNuevos = () => {
             "Total": row.total
         })));
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Matriculas");
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Admision_tipo_col_psa");
         XLSX.writeFile(workbook, `matriculas_${selectedYear}.xlsx`);
     };
 
@@ -54,17 +61,49 @@ const ColegioTipoNuevos = () => {
         labels: data.map(row => row.tipo_col.trim() === 'C' ? 'Convenio' : row.tipo_col.trim() === 'F' ? 'Fiscal' : 'Particular'),
         datasets: [
             {
-                data: data.map(row => row.total),
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-                hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                label: 'M',
+                data: data.map(row => row.total_masculino),
+                backgroundColor: '#36A2EB'
             },
-        ],
+            {
+                label: 'F',
+                data: data.map(row => row.total_femenino),
+                backgroundColor: '#FF6384'
+            }
+        ]
+    };
+    const barChartOptions = {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: true, // Ocultar la leyenda
+            },
+            title: {
+                display: true,
+                text: `Totales por Tipo de Colegio `,
+            },
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Tipo Colegio', // Título del eje X
+                },
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Cantidad',
+                },
+                beginAtZero: true,
+            },
+        },
     };
 
     const downloadChartImage = () => {
         const canvas = chartRef.current.canvas;
         canvas.toBlob(function(blob) {
-            saveAs(blob, `grafico_matriculas_${selectedYear}.png`);
+            saveAs(blob, `grafico_tipocolegio_nuevos_${selectedYear}.png`);
         });
     };
 
@@ -73,7 +112,7 @@ const ColegioTipoNuevos = () => {
             <Col xs={12} md={6} xl={6}>
                 <Card>
                     <CardHeader>
-                        Población Estudiantil regulares por Tipo de Colegio
+                        Población Regular Estudiantil Matrigulada por Sexo, según Tipo de Colegio.
                         <Form.Select
                             value={selectedYear}
                             onChange={(e) => setSelectedYear(e.target.value)}
@@ -128,14 +167,11 @@ const ColegioTipoNuevos = () => {
             <Col xs={12} md={6} xl={6}>
                 <Card>
                     <CardHeader>
-                        Gráfico
-                        
+                        Gráfico de Barras: Distribución por Tipo de Colegio.
                     </CardHeader>
-                    <div style={{ height: '400px', width: '400px', margin: 'auto' }}>
-                    <Doughnut ref={chartRef} data={chartData} />
-
-                    </div>
                     
+                        <Bar ref={chartRef} data={chartData} options={barChartOptions} />
+                   
                     <Button onClick={downloadChartImage} className="mt-2" variant="primary">
                             Descargar Gráfico en Imagen
                     </Button>
@@ -145,4 +181,4 @@ const ColegioTipoNuevos = () => {
     );
 };
 
-export default ColegioTipoNuevos;
+export default ColegioTipoRegular;

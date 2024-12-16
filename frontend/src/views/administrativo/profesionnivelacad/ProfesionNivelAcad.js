@@ -49,7 +49,7 @@ const ProfesionNivelAcad = () => {
             <Col >
                 <Card>
                     <CardHeader>
-                        Personal administartivos por profesion segun nivel academico
+                        Personal Administrativo por Nivel Académico, según Profesión.
                         <FormSelect value={gestion} onChange={handleFilterChange}>
                             {years.map(year => (
                                 <option key={year} value={year}>{year}</option>
@@ -61,12 +61,13 @@ const ProfesionNivelAcad = () => {
                         <thead>
                             <tr>
                                 <th rowSpan="2">Profesion</th>
-                                <th colSpan="8" className="text-center">Nivel Academico</th>
+                                <th colSpan="8" className="text-center">Nivel Alcanzado</th>
                                 <th rowSpan="2">Total</th>
                             </tr>
                             <tr>
-                                <th>Diplomado</th>
+                                
                                 <th>Licenciatura</th>
+                                <th>Diplomado</th>
                                 <th>Profesional</th>
                                 <th>Egresado</th>
                                 <th>Tecnico Medio</th>
@@ -79,8 +80,8 @@ const ProfesionNivelAcad = () => {
                             {data.map((item, index) => (
                                 <tr key={index}>
                                     <td>{item.profesion}</td>
-                                    <td>{item.total_diplomado}</td>
                                     <td>{item.total_licenciatura}</td>
+                                    <td>{item.total_diplomado}</td>
                                     <td>{item.total_profesional}</td>
                                     <td>{item.total_egresado}</td>
                                     <td>{item.total_tecnicomedio}</td>
@@ -94,8 +95,9 @@ const ProfesionNivelAcad = () => {
                         <tfoot>
                             <tr>
                                 <th>Total</th>
-                                <th>{data.reduce((sum, d) => sum + d.total_diplomado, 0)}</th>
+                                
                                 <th>{data.reduce((sum, d) => sum + d.total_licenciatura, 0)}</th>
+                                <th>{data.reduce((sum, d) => sum + d.total_diplomado, 0)}</th>
                                 <th>{data.reduce((sum, d) => sum + d.total_profesional, 0)}</th>
                                 <th>{data.reduce((sum, d) => sum + d.total_egresado, 0)}</th>
                                 <th>{data.reduce((sum, d) => sum + d.total_tecnicomedio, 0)}</th>

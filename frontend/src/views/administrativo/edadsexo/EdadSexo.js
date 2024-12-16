@@ -106,7 +106,7 @@ const EdadSexo = () => {
 
     // Preparar los datos para el gráfico de barras
     const barChartData = {
-        labels: datos.map(item => `Edad ${item.edad}`), // Etiquetas de las edades
+        labels: datos.map(item => item.edad), // Solo mostrar las edades
         datasets: [
             {
                 label: 'Total',
@@ -127,12 +127,22 @@ const EdadSexo = () => {
             },
             title: {
                 display: true,
-                text: `Totales por Edad - Gestión ${gestion}`,
+                text: `Totales por Edad - Gestión ${gestion}`, // Título principal del gráfico
             },
         },
         scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Edad', // Título del eje X
+                },
+            },
             y: {
-                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Cantidad', // Título del eje Y
+                },
+                beginAtZero: true, // Asegurar que el eje Y comience en 0
             },
         },
     };
@@ -142,14 +152,12 @@ const EdadSexo = () => {
             <Col xs={10} md={5} xl={5}>
                 <Card>
                     <CardHeader>
-                        Personal docente por edad y sexo 
-                        {/* Dropdown para seleccionar la gestión */}
+                        Personal Administrativo por Sexo, según Edad.
                         <Form.Control as="select" value={gestion} onChange={(e) => setGestion(e.target.value)}>
                             {gestiones.map((g, index) => (
                                 <option key={index} value={g.gestion}>{g.gestion}</option>
                             ))}
                         </Form.Control>
-
                     </CardHeader>
                     <Table bordered>
                         <thead>
@@ -187,9 +195,7 @@ const EdadSexo = () => {
                                 <th>{totalGeneral}</th>
                             </tr>
                         </tfoot>
-
                     </Table>
-                    {/* Botón para descargar en Excel */}
                     <Button variant="primary" onClick={descargarExcel}>
                         Descargar Excel
                     </Button>
@@ -197,11 +203,10 @@ const EdadSexo = () => {
             </Col>
             <Col xs={14} md={7} xl={7}>
                 <Card>
-                    <CardHeader>Gráfica de Totales</CardHeader>
+                    <CardHeader>Gráfica de Barras: Distribución por Edad</CardHeader>
                     <div style={{ padding: '20px' }}>
                         <Bar ref={chartRef} data={barChartData} options={barChartOptions} />
                     </div>
-                    {/* Botón para descargar la imagen del gráfico */}
                     <Button variant="primary" onClick={descargarImagen}>
                         Descargar Imagen
                     </Button>
@@ -209,6 +214,6 @@ const EdadSexo = () => {
             </Col>
         </Row>
     );
-}
+};
 
 export default EdadSexo;

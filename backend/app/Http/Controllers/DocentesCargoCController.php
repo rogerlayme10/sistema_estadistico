@@ -17,15 +17,15 @@ class DocentesCargoCController extends Controller
         $gestion = $request->input('gestion', 2023); // Valor por defecto para el año 2023
 
         $data = DB::table('docentes')
-            ->select('cargo',
+            ->select('categoria',
                 DB::raw('SUM(CASE WHEN sexo = \'M\' THEN 1 ELSE 0 END) as total_masculino'),
                 DB::raw('SUM(CASE WHEN sexo = \'F\' THEN 1 ELSE 0 END) as total_femenino'),
                 DB::raw('COUNT(*) as total')
             )
             ->where('gestion', $gestion)
-            ->where('tipo_cargo', 'C') // Filtrar por tipo_cargo = 'A'
-            ->groupBy('cargo')
-            ->orderBy('cargo')
+            //->where('tipo_cargo', 'C') // Filtrar por tipo_cargo = 'A'
+            ->groupBy('categoria')
+            ->orderBy('categoria')
             ->get();
 
         return response()->json([

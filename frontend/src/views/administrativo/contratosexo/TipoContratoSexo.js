@@ -40,12 +40,15 @@ const TipoContrato = () => {
     // Ordenar los datos por 'actividad' alfabéticamente
     const sortedData = [...data].sort((a, b) => a.tipo_contrato.localeCompare(b.tipo_contrato));
 
+    // Calcular el total general
+    const totalGeneral = sortedData.reduce((acc, row) => acc + row.total, 0);
+
     // Preparar los datos para el gráfico Pie
     const pieData = {
         labels: sortedData.map(row => row.tipo_contrato),  // Etiquetas de cada tipo de contrato
         datasets: [{
             label: 'Distribución por contrato y sexo',
-            data: sortedData.map(row => row.total), // Usamos el total de cada tipo de contrato
+            data: sortedData.map(row => ((row.total / totalGeneral) * 100).toFixed(2)), // Convertir a porcentaje y limitar a 2 decimales
             backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'], // Colores para cada segmento
         }]
     };
@@ -81,7 +84,7 @@ const TipoContrato = () => {
             <Col xs={12} md={6} xl={6}>
                 <Card>
                     <CardHeader>
-                        Personal administrativo por sexo y tipo de contrato
+                        Personal Administrativo por Sexo, según Tipo de Contrato.
                         <Form.Select 
                             className="mt-2" 
                             value={gestion} 
@@ -132,7 +135,7 @@ const TipoContrato = () => {
             </Col>
             <Col xs={12} md={6} xl={6}>
                 <Card>
-                    <CardHeader>Grafica</CardHeader>
+                    <CardHeader>Gráfica de Sectores: Distribución por Tipo de Contrato  </CardHeader>
                     <div style={{ height: '400px' }}>
                         <Pie ref={chartRef} data={pieData} options={chartOptions} />
                     </div>
